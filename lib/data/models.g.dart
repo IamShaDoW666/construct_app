@@ -44,53 +44,63 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
   'updatedAt': instance.updatedAt.toIso8601String(),
 };
 
-_Transaction _$TransactionFromJson(Map<String, dynamic> json) => _Transaction(
+_Media _$MediaFromJson(Map<String, dynamic> json) => _Media(
   id: json['id'] as String,
-  amount: (json['amount'] as num).toInt(),
-  senderId: json['senderId'] as String,
-  receiverId: json['receiverId'] as String,
+  title: json['title'] as String?,
+  type: json['type'] as String,
+  url: json['url'] as String,
+  description: json['description'] as String?,
+  uploadedUser:
+      json['uploadedUser'] == null
+          ? null
+          : User.fromJson(json['uploadedUser'] as Map<String, dynamic>),
+  uploadedUserId: json['uploadedUserId'] as String?,
+  reference: json['reference'] as String?,
+  batchId: json['batchId'] as String?,
+  batch:
+      json['batch'] == null
+          ? null
+          : Batch.fromJson(json['batch'] as Map<String, dynamic>),
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
 
-Map<String, dynamic> _$TransactionToJson(_Transaction instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'amount': instance.amount,
-      'senderId': instance.senderId,
-      'receiverId': instance.receiverId,
-      'createdAt': instance.createdAt.toIso8601String(),
-      'updatedAt': instance.updatedAt.toIso8601String(),
-    };
-
-_Account _$AccountFromJson(Map<String, dynamic> json) => _Account(
-  id: json['id'] as String,
-  name: json['name'] as String?,
-  accountNumber: json['accountNumber'] as String,
-  userId: json['userId'] as String,
-  balance: (json['balance'] as num?)?.toInt() ?? 0,
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  updatedAt: DateTime.parse(json['updatedAt'] as String),
-  sentTransactions:
-      (json['sentTransactions'] as List<dynamic>?)
-          ?.map((e) => Transaction.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      const [],
-  receivedTransactions:
-      (json['receivedTransactions'] as List<dynamic>?)
-          ?.map((e) => Transaction.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      const [],
-);
-
-Map<String, dynamic> _$AccountToJson(_Account instance) => <String, dynamic>{
+Map<String, dynamic> _$MediaToJson(_Media instance) => <String, dynamic>{
   'id': instance.id,
-  'name': instance.name,
-  'accountNumber': instance.accountNumber,
-  'userId': instance.userId,
-  'balance': instance.balance,
+  'title': instance.title,
+  'type': instance.type,
+  'url': instance.url,
+  'description': instance.description,
+  'uploadedUser': instance.uploadedUser,
+  'uploadedUserId': instance.uploadedUserId,
+  'reference': instance.reference,
+  'batchId': instance.batchId,
+  'batch': instance.batch,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
-  'sentTransactions': instance.sentTransactions,
-  'receivedTransactions': instance.receivedTransactions,
+};
+
+_Batch _$BatchFromJson(Map<String, dynamic> json) => _Batch(
+  id: json['id'] as String,
+  name: json['name'] as String?,
+  reference: json['reference'] as String?,
+  userId: json['userId'] as String,
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  media:
+      (json['media'] as List<dynamic>)
+          .map((e) => Media.fromJson(e as Map<String, dynamic>))
+          .toList(),
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
+);
+
+Map<String, dynamic> _$BatchToJson(_Batch instance) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
+  'reference': instance.reference,
+  'userId': instance.userId,
+  'createdBy': instance.createdBy,
+  'media': instance.media,
+  'createdAt': instance.createdAt.toIso8601String(),
+  'updatedAt': instance.updatedAt.toIso8601String(),
 };

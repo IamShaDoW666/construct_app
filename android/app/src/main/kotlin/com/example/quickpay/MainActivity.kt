@@ -1,4 +1,4 @@
-package com.example.construct
+package com.example.digicon
 
 import io.flutter.embedding.android.FlutterActivity
 

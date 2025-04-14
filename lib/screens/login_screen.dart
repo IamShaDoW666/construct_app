@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:quickpay/constants/endpoints.dart';
-import 'package:quickpay/constants/keys.dart';
-import 'package:quickpay/constants/routes.dart';
-import 'package:quickpay/services/network.dart';
+import 'package:digicon/constants/endpoints.dart';
+import 'package:digicon/constants/keys.dart';
+import 'package:digicon/constants/routes.dart';
+import 'package:digicon/services/network.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

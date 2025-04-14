@@ -158,8 +158,7 @@ as T,
 /// @nodoc
 mixin _$User {
 
- String get id; String? get name; String get email; String? get password;// @Default([]) List<Account> accounts,
- DateTime get createdAt; DateTime get updatedAt;
+ String get id; String? get name; String get email; String? get password; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -235,7 +234,6 @@ class _User implements User {
 @override final  String? name;
 @override final  String email;
 @override final  String? password;
-// @Default([]) List<Account> accounts,
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 
@@ -306,319 +304,394 @@ as DateTime,
 
 
 /// @nodoc
-mixin _$Transaction {
+mixin _$Media {
 
- String get id; int get amount; String get senderId; String get receiverId; DateTime get createdAt; DateTime get updatedAt;
-/// Create a copy of Transaction
+ String get id; String? get title; String get type; String get url; String? get description; User? get uploadedUser; String? get uploadedUserId; String? get reference; String? get batchId; Batch? get batch; DateTime get createdAt; DateTime get updatedAt;
+/// Create a copy of Media
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TransactionCopyWith<Transaction> get copyWith => _$TransactionCopyWithImpl<Transaction>(this as Transaction, _$identity);
+$MediaCopyWith<Media> get copyWith => _$MediaCopyWithImpl<Media>(this as Media, _$identity);
 
-  /// Serializes this Transaction to a JSON map.
+  /// Serializes this Media to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction&&(identical(other.id, id) || other.id == id)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.receiverId, receiverId) || other.receiverId == receiverId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Media&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.description, description) || other.description == description)&&(identical(other.uploadedUser, uploadedUser) || other.uploadedUser == uploadedUser)&&(identical(other.uploadedUserId, uploadedUserId) || other.uploadedUserId == uploadedUserId)&&(identical(other.reference, reference) || other.reference == reference)&&(identical(other.batchId, batchId) || other.batchId == batchId)&&(identical(other.batch, batch) || other.batch == batch)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,amount,senderId,receiverId,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,title,type,url,description,uploadedUser,uploadedUserId,reference,batchId,batch,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Transaction(id: $id, amount: $amount, senderId: $senderId, receiverId: $receiverId, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Media(id: $id, title: $title, type: $type, url: $url, description: $description, uploadedUser: $uploadedUser, uploadedUserId: $uploadedUserId, reference: $reference, batchId: $batchId, batch: $batch, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TransactionCopyWith<$Res>  {
-  factory $TransactionCopyWith(Transaction value, $Res Function(Transaction) _then) = _$TransactionCopyWithImpl;
+abstract mixin class $MediaCopyWith<$Res>  {
+  factory $MediaCopyWith(Media value, $Res Function(Media) _then) = _$MediaCopyWithImpl;
 @useResult
 $Res call({
- String id, int amount, String senderId, String receiverId, DateTime createdAt, DateTime updatedAt
+ String id, String? title, String type, String url, String? description, User? uploadedUser, String? uploadedUserId, String? reference, String? batchId, Batch? batch, DateTime createdAt, DateTime updatedAt
 });
 
 
-
+$UserCopyWith<$Res>? get uploadedUser;$BatchCopyWith<$Res>? get batch;
 
 }
 /// @nodoc
-class _$TransactionCopyWithImpl<$Res>
-    implements $TransactionCopyWith<$Res> {
-  _$TransactionCopyWithImpl(this._self, this._then);
+class _$MediaCopyWithImpl<$Res>
+    implements $MediaCopyWith<$Res> {
+  _$MediaCopyWithImpl(this._self, this._then);
 
-  final Transaction _self;
-  final $Res Function(Transaction) _then;
+  final Media _self;
+  final $Res Function(Media) _then;
 
-/// Create a copy of Transaction
+/// Create a copy of Media
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? amount = null,Object? senderId = null,Object? receiverId = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = freezed,Object? type = null,Object? url = null,Object? description = freezed,Object? uploadedUser = freezed,Object? uploadedUserId = freezed,Object? reference = freezed,Object? batchId = freezed,Object? batch = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as int,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
-as String,receiverId: null == receiverId ? _self.receiverId : receiverId // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,uploadedUser: freezed == uploadedUser ? _self.uploadedUser : uploadedUser // ignore: cast_nullable_to_non_nullable
+as User?,uploadedUserId: freezed == uploadedUserId ? _self.uploadedUserId : uploadedUserId // ignore: cast_nullable_to_non_nullable
+as String?,reference: freezed == reference ? _self.reference : reference // ignore: cast_nullable_to_non_nullable
+as String?,batchId: freezed == batchId ? _self.batchId : batchId // ignore: cast_nullable_to_non_nullable
+as String?,batch: freezed == batch ? _self.batch : batch // ignore: cast_nullable_to_non_nullable
+as Batch?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
 }
+/// Create a copy of Media
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get uploadedUser {
+    if (_self.uploadedUser == null) {
+    return null;
+  }
 
+  return $UserCopyWith<$Res>(_self.uploadedUser!, (value) {
+    return _then(_self.copyWith(uploadedUser: value));
+  });
+}/// Create a copy of Media
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchCopyWith<$Res>? get batch {
+    if (_self.batch == null) {
+    return null;
+  }
+
+  return $BatchCopyWith<$Res>(_self.batch!, (value) {
+    return _then(_self.copyWith(batch: value));
+  });
+}
 }
 
 
 /// @nodoc
 @JsonSerializable()
 
-class _Transaction implements Transaction {
-  const _Transaction({required this.id, required this.amount, required this.senderId, required this.receiverId, required this.createdAt, required this.updatedAt});
-  factory _Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
+class _Media implements Media {
+  const _Media({required this.id, required this.title, required this.type, required this.url, required this.description, required this.uploadedUser, required this.uploadedUserId, required this.reference, required this.batchId, required this.batch, required this.createdAt, required this.updatedAt});
+  factory _Media.fromJson(Map<String, dynamic> json) => _$MediaFromJson(json);
 
 @override final  String id;
-@override final  int amount;
-@override final  String senderId;
-@override final  String receiverId;
+@override final  String? title;
+@override final  String type;
+@override final  String url;
+@override final  String? description;
+@override final  User? uploadedUser;
+@override final  String? uploadedUserId;
+@override final  String? reference;
+@override final  String? batchId;
+@override final  Batch? batch;
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 
-/// Create a copy of Transaction
+/// Create a copy of Media
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TransactionCopyWith<_Transaction> get copyWith => __$TransactionCopyWithImpl<_Transaction>(this, _$identity);
+_$MediaCopyWith<_Media> get copyWith => __$MediaCopyWithImpl<_Media>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$TransactionToJson(this, );
+  return _$MediaToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Transaction&&(identical(other.id, id) || other.id == id)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.receiverId, receiverId) || other.receiverId == receiverId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Media&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.description, description) || other.description == description)&&(identical(other.uploadedUser, uploadedUser) || other.uploadedUser == uploadedUser)&&(identical(other.uploadedUserId, uploadedUserId) || other.uploadedUserId == uploadedUserId)&&(identical(other.reference, reference) || other.reference == reference)&&(identical(other.batchId, batchId) || other.batchId == batchId)&&(identical(other.batch, batch) || other.batch == batch)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,amount,senderId,receiverId,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,title,type,url,description,uploadedUser,uploadedUserId,reference,batchId,batch,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Transaction(id: $id, amount: $amount, senderId: $senderId, receiverId: $receiverId, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Media(id: $id, title: $title, type: $type, url: $url, description: $description, uploadedUser: $uploadedUser, uploadedUserId: $uploadedUserId, reference: $reference, batchId: $batchId, batch: $batch, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TransactionCopyWith<$Res> implements $TransactionCopyWith<$Res> {
-  factory _$TransactionCopyWith(_Transaction value, $Res Function(_Transaction) _then) = __$TransactionCopyWithImpl;
+abstract mixin class _$MediaCopyWith<$Res> implements $MediaCopyWith<$Res> {
+  factory _$MediaCopyWith(_Media value, $Res Function(_Media) _then) = __$MediaCopyWithImpl;
 @override @useResult
 $Res call({
- String id, int amount, String senderId, String receiverId, DateTime createdAt, DateTime updatedAt
+ String id, String? title, String type, String url, String? description, User? uploadedUser, String? uploadedUserId, String? reference, String? batchId, Batch? batch, DateTime createdAt, DateTime updatedAt
 });
 
 
-
+@override $UserCopyWith<$Res>? get uploadedUser;@override $BatchCopyWith<$Res>? get batch;
 
 }
 /// @nodoc
-class __$TransactionCopyWithImpl<$Res>
-    implements _$TransactionCopyWith<$Res> {
-  __$TransactionCopyWithImpl(this._self, this._then);
+class __$MediaCopyWithImpl<$Res>
+    implements _$MediaCopyWith<$Res> {
+  __$MediaCopyWithImpl(this._self, this._then);
 
-  final _Transaction _self;
-  final $Res Function(_Transaction) _then;
+  final _Media _self;
+  final $Res Function(_Media) _then;
 
-/// Create a copy of Transaction
+/// Create a copy of Media
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? amount = null,Object? senderId = null,Object? receiverId = null,Object? createdAt = null,Object? updatedAt = null,}) {
-  return _then(_Transaction(
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = freezed,Object? type = null,Object? url = null,Object? description = freezed,Object? uploadedUser = freezed,Object? uploadedUserId = freezed,Object? reference = freezed,Object? batchId = freezed,Object? batch = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+  return _then(_Media(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as int,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
-as String,receiverId: null == receiverId ? _self.receiverId : receiverId // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,uploadedUser: freezed == uploadedUser ? _self.uploadedUser : uploadedUser // ignore: cast_nullable_to_non_nullable
+as User?,uploadedUserId: freezed == uploadedUserId ? _self.uploadedUserId : uploadedUserId // ignore: cast_nullable_to_non_nullable
+as String?,reference: freezed == reference ? _self.reference : reference // ignore: cast_nullable_to_non_nullable
+as String?,batchId: freezed == batchId ? _self.batchId : batchId // ignore: cast_nullable_to_non_nullable
+as String?,batch: freezed == batch ? _self.batch : batch // ignore: cast_nullable_to_non_nullable
+as Batch?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
 }
 
+/// Create a copy of Media
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get uploadedUser {
+    if (_self.uploadedUser == null) {
+    return null;
+  }
 
+  return $UserCopyWith<$Res>(_self.uploadedUser!, (value) {
+    return _then(_self.copyWith(uploadedUser: value));
+  });
+}/// Create a copy of Media
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BatchCopyWith<$Res>? get batch {
+    if (_self.batch == null) {
+    return null;
+  }
+
+  return $BatchCopyWith<$Res>(_self.batch!, (value) {
+    return _then(_self.copyWith(batch: value));
+  });
+}
 }
 
 
 /// @nodoc
-mixin _$Account {
+mixin _$Batch {
 
- String get id; String? get name; String get accountNumber; String get userId; int get balance; DateTime get createdAt; DateTime get updatedAt; List<Transaction> get sentTransactions; List<Transaction> get receivedTransactions;
-/// Create a copy of Account
+ String get id; String? get name; String? get reference; String get userId; User get createdBy; List<Media> get media; DateTime get createdAt; DateTime get updatedAt;
+/// Create a copy of Batch
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$AccountCopyWith<Account> get copyWith => _$AccountCopyWithImpl<Account>(this as Account, _$identity);
+$BatchCopyWith<Batch> get copyWith => _$BatchCopyWithImpl<Batch>(this as Batch, _$identity);
 
-  /// Serializes this Account to a JSON map.
+  /// Serializes this Batch to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Account&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.accountNumber, accountNumber) || other.accountNumber == accountNumber)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.balance, balance) || other.balance == balance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&const DeepCollectionEquality().equals(other.sentTransactions, sentTransactions)&&const DeepCollectionEquality().equals(other.receivedTransactions, receivedTransactions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Batch&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.reference, reference) || other.reference == reference)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&const DeepCollectionEquality().equals(other.media, media)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,accountNumber,userId,balance,createdAt,updatedAt,const DeepCollectionEquality().hash(sentTransactions),const DeepCollectionEquality().hash(receivedTransactions));
+int get hashCode => Object.hash(runtimeType,id,name,reference,userId,createdBy,const DeepCollectionEquality().hash(media),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Account(id: $id, name: $name, accountNumber: $accountNumber, userId: $userId, balance: $balance, createdAt: $createdAt, updatedAt: $updatedAt, sentTransactions: $sentTransactions, receivedTransactions: $receivedTransactions)';
+  return 'Batch(id: $id, name: $name, reference: $reference, userId: $userId, createdBy: $createdBy, media: $media, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $AccountCopyWith<$Res>  {
-  factory $AccountCopyWith(Account value, $Res Function(Account) _then) = _$AccountCopyWithImpl;
+abstract mixin class $BatchCopyWith<$Res>  {
+  factory $BatchCopyWith(Batch value, $Res Function(Batch) _then) = _$BatchCopyWithImpl;
 @useResult
 $Res call({
- String id, String? name, String accountNumber, String userId, int balance, DateTime createdAt, DateTime updatedAt, List<Transaction> sentTransactions, List<Transaction> receivedTransactions
+ String id, String? name, String? reference, String userId, User createdBy, List<Media> media, DateTime createdAt, DateTime updatedAt
 });
 
 
-
+$UserCopyWith<$Res> get createdBy;
 
 }
 /// @nodoc
-class _$AccountCopyWithImpl<$Res>
-    implements $AccountCopyWith<$Res> {
-  _$AccountCopyWithImpl(this._self, this._then);
+class _$BatchCopyWithImpl<$Res>
+    implements $BatchCopyWith<$Res> {
+  _$BatchCopyWithImpl(this._self, this._then);
 
-  final Account _self;
-  final $Res Function(Account) _then;
+  final Batch _self;
+  final $Res Function(Batch) _then;
 
-/// Create a copy of Account
+/// Create a copy of Batch
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = freezed,Object? accountNumber = null,Object? userId = null,Object? balance = null,Object? createdAt = null,Object? updatedAt = null,Object? sentTransactions = null,Object? receivedTransactions = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = freezed,Object? reference = freezed,Object? userId = null,Object? createdBy = null,Object? media = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,accountNumber: null == accountNumber ? _self.accountNumber : accountNumber // ignore: cast_nullable_to_non_nullable
-as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String,balance: null == balance ? _self.balance : balance // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,reference: freezed == reference ? _self.reference : reference // ignore: cast_nullable_to_non_nullable
+as String?,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as User,media: null == media ? _self.media : media // ignore: cast_nullable_to_non_nullable
+as List<Media>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,sentTransactions: null == sentTransactions ? _self.sentTransactions : sentTransactions // ignore: cast_nullable_to_non_nullable
-as List<Transaction>,receivedTransactions: null == receivedTransactions ? _self.receivedTransactions : receivedTransactions // ignore: cast_nullable_to_non_nullable
-as List<Transaction>,
+as DateTime,
   ));
 }
-
+/// Create a copy of Batch
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get createdBy {
+  
+  return $UserCopyWith<$Res>(_self.createdBy, (value) {
+    return _then(_self.copyWith(createdBy: value));
+  });
+}
 }
 
 
 /// @nodoc
 @JsonSerializable()
 
-class _Account implements Account {
-  const _Account({required this.id, this.name, required this.accountNumber, required this.userId, this.balance = 0, required this.createdAt, required this.updatedAt, final  List<Transaction> sentTransactions = const [], final  List<Transaction> receivedTransactions = const []}): _sentTransactions = sentTransactions,_receivedTransactions = receivedTransactions;
-  factory _Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
+class _Batch implements Batch {
+  const _Batch({required this.id, required this.name, required this.reference, required this.userId, required this.createdBy, required final  List<Media> media, required this.createdAt, required this.updatedAt}): _media = media;
+  factory _Batch.fromJson(Map<String, dynamic> json) => _$BatchFromJson(json);
 
 @override final  String id;
 @override final  String? name;
-@override final  String accountNumber;
+@override final  String? reference;
 @override final  String userId;
-@override@JsonKey() final  int balance;
+@override final  User createdBy;
+ final  List<Media> _media;
+@override List<Media> get media {
+  if (_media is EqualUnmodifiableListView) return _media;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_media);
+}
+
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
- final  List<Transaction> _sentTransactions;
-@override@JsonKey() List<Transaction> get sentTransactions {
-  if (_sentTransactions is EqualUnmodifiableListView) return _sentTransactions;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_sentTransactions);
-}
 
- final  List<Transaction> _receivedTransactions;
-@override@JsonKey() List<Transaction> get receivedTransactions {
-  if (_receivedTransactions is EqualUnmodifiableListView) return _receivedTransactions;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_receivedTransactions);
-}
-
-
-/// Create a copy of Account
+/// Create a copy of Batch
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$AccountCopyWith<_Account> get copyWith => __$AccountCopyWithImpl<_Account>(this, _$identity);
+_$BatchCopyWith<_Batch> get copyWith => __$BatchCopyWithImpl<_Batch>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$AccountToJson(this, );
+  return _$BatchToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Account&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.accountNumber, accountNumber) || other.accountNumber == accountNumber)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.balance, balance) || other.balance == balance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&const DeepCollectionEquality().equals(other._sentTransactions, _sentTransactions)&&const DeepCollectionEquality().equals(other._receivedTransactions, _receivedTransactions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Batch&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.reference, reference) || other.reference == reference)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&const DeepCollectionEquality().equals(other._media, _media)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,accountNumber,userId,balance,createdAt,updatedAt,const DeepCollectionEquality().hash(_sentTransactions),const DeepCollectionEquality().hash(_receivedTransactions));
+int get hashCode => Object.hash(runtimeType,id,name,reference,userId,createdBy,const DeepCollectionEquality().hash(_media),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Account(id: $id, name: $name, accountNumber: $accountNumber, userId: $userId, balance: $balance, createdAt: $createdAt, updatedAt: $updatedAt, sentTransactions: $sentTransactions, receivedTransactions: $receivedTransactions)';
+  return 'Batch(id: $id, name: $name, reference: $reference, userId: $userId, createdBy: $createdBy, media: $media, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$AccountCopyWith<$Res> implements $AccountCopyWith<$Res> {
-  factory _$AccountCopyWith(_Account value, $Res Function(_Account) _then) = __$AccountCopyWithImpl;
+abstract mixin class _$BatchCopyWith<$Res> implements $BatchCopyWith<$Res> {
+  factory _$BatchCopyWith(_Batch value, $Res Function(_Batch) _then) = __$BatchCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String? name, String accountNumber, String userId, int balance, DateTime createdAt, DateTime updatedAt, List<Transaction> sentTransactions, List<Transaction> receivedTransactions
+ String id, String? name, String? reference, String userId, User createdBy, List<Media> media, DateTime createdAt, DateTime updatedAt
 });
 
 
-
+@override $UserCopyWith<$Res> get createdBy;
 
 }
 /// @nodoc
-class __$AccountCopyWithImpl<$Res>
-    implements _$AccountCopyWith<$Res> {
-  __$AccountCopyWithImpl(this._self, this._then);
+class __$BatchCopyWithImpl<$Res>
+    implements _$BatchCopyWith<$Res> {
+  __$BatchCopyWithImpl(this._self, this._then);
 
-  final _Account _self;
-  final $Res Function(_Account) _then;
+  final _Batch _self;
+  final $Res Function(_Batch) _then;
 
-/// Create a copy of Account
+/// Create a copy of Batch
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = freezed,Object? accountNumber = null,Object? userId = null,Object? balance = null,Object? createdAt = null,Object? updatedAt = null,Object? sentTransactions = null,Object? receivedTransactions = null,}) {
-  return _then(_Account(
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = freezed,Object? reference = freezed,Object? userId = null,Object? createdBy = null,Object? media = null,Object? createdAt = null,Object? updatedAt = null,}) {
+  return _then(_Batch(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,accountNumber: null == accountNumber ? _self.accountNumber : accountNumber // ignore: cast_nullable_to_non_nullable
-as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String,balance: null == balance ? _self.balance : balance // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,reference: freezed == reference ? _self.reference : reference // ignore: cast_nullable_to_non_nullable
+as String?,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as User,media: null == media ? _self._media : media // ignore: cast_nullable_to_non_nullable
+as List<Media>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,sentTransactions: null == sentTransactions ? _self._sentTransactions : sentTransactions // ignore: cast_nullable_to_non_nullable
-as List<Transaction>,receivedTransactions: null == receivedTransactions ? _self._receivedTransactions : receivedTransactions // ignore: cast_nullable_to_non_nullable
-as List<Transaction>,
+as DateTime,
   ));
 }
 
-
+/// Create a copy of Batch
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get createdBy {
+  
+  return $UserCopyWith<$Res>(_self.createdBy, (value) {
+    return _then(_self.copyWith(createdBy: value));
+  });
+}
 }
 
 // dart format on

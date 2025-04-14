@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:quickpay/constants/keys.dart';
-import 'package:quickpay/constants/routes.dart';
+import 'package:digicon/constants/keys.dart';
+import 'package:digicon/constants/routes.dart';
+import 'package:digicon/services/api_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -44,20 +45,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.home, size: 100, color: Colors.black),
-            const SizedBox(height: 20),
-            Text(
-              'Welcome to the Home Screen',
-              style: context.textTheme.headlineSmall!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+        child: GestureDetector(
+          onTap: () {
+            context.push(AppRoutes.imageList);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "View Batches",
+                style: context.textTheme.headlineSmall,
               ),
-            ),
-          ],
-        ),
+              Icon(Icons.image, size: 100, color: Colors.black),
+            ],
+          ),
+        ).paddingAll(32),
       ),
     );
   }

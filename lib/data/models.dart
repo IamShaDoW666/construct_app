@@ -18,7 +18,6 @@ abstract class ApiResponse<T> with _$ApiResponse<T> {
     T Function(Object?) fromJsonT,
   ) => _$ApiResponseFromJson(json, fromJsonT);
 }
-
 /// User Model
 @freezed
 abstract class User with _$User {
@@ -27,7 +26,6 @@ abstract class User with _$User {
     String? name,
     required String email,
     String? password,
-    // @Default([]) List<Account> accounts,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _User;
@@ -35,37 +33,41 @@ abstract class User with _$User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
 
-/// Transaction Model
 @freezed
-abstract class Transaction with _$Transaction {
-  const factory Transaction({
+abstract class Media with _$Media {
+  const factory Media({
     required String id,
-    required int amount,
-    required String senderId,
-    required String receiverId,
+    required String? title,
+    required String type,
+    required String url,
+    required String? description,
+    required User? uploadedUser,
+    required String? uploadedUserId,
+    required String? reference,
+    required String? batchId,
+    required Batch? batch,
     required DateTime createdAt,
     required DateTime updatedAt,
-  }) = _Transaction;
+  }) = _Media;
 
-  factory Transaction.fromJson(Map<String, dynamic> json) =>
-      _$TransactionFromJson(json);
+  factory Media.fromJson(Map<String, dynamic> json) => _$MediaFromJson(json);
 }
 
-/// Account Model
 @freezed
-abstract class Account with _$Account {
-  const factory Account({
+abstract class Batch with _$Batch {
+  const factory Batch({
     required String id,
-    String? name,
-    required String accountNumber,
+    required String? name,
+    required String? reference,
     required String userId,
-    @Default(0) int balance,
+    required User createdBy,
+    required List<Media> media,
     required DateTime createdAt,
     required DateTime updatedAt,
-    @Default([]) List<Transaction> sentTransactions,
-    @Default([]) List<Transaction> receivedTransactions,
-  }) = _Account;
+  }) = _Batch;
 
-  factory Account.fromJson(Map<String, dynamic> json) =>
-      _$AccountFromJson(json);
+  factory Batch.fromJson(Map<String, dynamic> json) => _$BatchFromJson(json);
 }
+
+
+

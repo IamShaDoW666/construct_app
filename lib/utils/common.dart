@@ -14,3 +14,7 @@ double formatAmount(int amount) {
   double formattedAmount = amount / 100;
   return double.parse(formattedAmount.toStringAsFixed(2));
 }
+
+String formatDateTime(DateTime dateTime, {String pattern = 'y MMMM d h:mma', String? locale}) {
+  return DateFormat(pattern, locale).format(dateTime);
+}

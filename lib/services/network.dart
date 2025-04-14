@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:quickpay/constants/keys.dart';
+import 'package:digicon/constants/keys.dart';
 
 class ApiException implements Exception {
   final String message;

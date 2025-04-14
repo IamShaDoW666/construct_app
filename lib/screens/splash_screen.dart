@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:quickpay/constants/keys.dart';
-import 'package:quickpay/constants/routes.dart';
+import 'package:digicon/constants/keys.dart';
+import 'package:digicon/constants/routes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
