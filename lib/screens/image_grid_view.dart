@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicon/constants/keys.dart';
 import 'package:digicon/constants/routes.dart';
 import 'package:digicon/data/models.dart';
@@ -20,8 +21,8 @@ class ImageGridView extends StatefulWidget {
 }
 
 class _ImageGridViewState extends State<ImageGridView> {
-  late List<Media> _existing;       
-  final List<File> _newFiles = [];    
+  late List<Media> _existing;
+  final List<File> _newFiles = [];
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _referenceController = TextEditingController();
 
@@ -29,7 +30,10 @@ class _ImageGridViewState extends State<ImageGridView> {
   void initState() {
     super.initState();
     _existing = List.from(widget.batch.media);
-    _referenceController.text = widget.batch.reference!.isNotEmpty ? widget.batch.reference.splitAfter("REF").substring(4) : '';
+    _referenceController.text =
+        widget.batch.reference!.isNotEmpty
+            ? widget.batch.reference.splitAfter("REF").substring(4)
+            : '';
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -77,28 +81,29 @@ class _ImageGridViewState extends State<ImageGridView> {
   void _showImageSourceDialog() {
     showModalBottomSheet(
       context: context,
-      builder: (_) => SafeArea(
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text('Gallery'),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImage(ImageSource.gallery);
-              },
+      builder:
+          (_) => SafeArea(
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Gallery'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _pickImage(ImageSource.gallery);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _pickImage(ImageSource.camera);
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text('Camera'),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImage(ImageSource.camera);
-              },
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -112,7 +117,14 @@ class _ImageGridViewState extends State<ImageGridView> {
         onTap: () => _openFullScreen(index, isExisting: true),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: Image.network(media.url, fit: BoxFit.cover),
+          child: CachedNetworkImage(
+            imageUrl: media.url,
+            fit: BoxFit.cover,
+            placeholder:
+                (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
         ),
       );
     }
@@ -145,30 +157,35 @@ class _ImageGridViewState extends State<ImageGridView> {
   }
 
   void _openFullScreen(int index, {required bool isExisting}) {
-    final images = isExisting
-        ? _existing.map((m) => NetworkImage(m.url) as ImageProvider).toList()
-        : _newFiles.map((f) => FileImage(f) as ImageProvider).toList();
+    final images =
+        isExisting
+            ? _existing
+                .map((m) => NetworkImage(m.url) as ImageProvider)
+                .toList()
+            : _newFiles.map((f) => FileImage(f) as ImageProvider).toList();
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(
-            title: const Text('Image Viewer'),
-            backgroundColor: Colors.black,
-          ),
-          body: PhotoViewGallery.builder(
-            itemCount: images.length,
-            builder: (ctx, i) => PhotoViewGalleryPageOptions(
-              imageProvider: images[i],
-              minScale: PhotoViewComputedScale.contained,
-              maxScale: PhotoViewComputedScale.covered * 2,
+        builder:
+            (_) => Scaffold(
+              appBar: AppBar(
+                title: const Text('Image Viewer'),
+                backgroundColor: Colors.black,
+              ),
+              body: PhotoViewGallery.builder(
+                itemCount: images.length,
+                builder:
+                    (ctx, i) => PhotoViewGalleryPageOptions(
+                      imageProvider: images[i],
+                      minScale: PhotoViewComputedScale.contained,
+                      maxScale: PhotoViewComputedScale.covered * 2,
+                    ),
+                pageController: PageController(initialPage: index),
+                scrollPhysics: const BouncingScrollPhysics(),
+                backgroundDecoration: const BoxDecoration(color: Colors.black),
+              ),
             ),
-            pageController: PageController(initialPage: index),
-            scrollPhysics: const BouncingScrollPhysics(),
-            backgroundDecoration: const BoxDecoration(color: Colors.black),
-          ),
-        ),
       ),
     );
   }
@@ -195,8 +212,8 @@ class _ImageGridViewState extends State<ImageGridView> {
           36.height,
           Row(
             children: [
-              Text('${widget.batch.reference?.substring(0, 7)} - '),              
-              Expanded(                
+              Text('${widget.batch.reference?.substring(0, 7)} - '),
+              Expanded(
                 child: TextField(
                   controller: _referenceController,
                   decoration: const InputDecoration(
