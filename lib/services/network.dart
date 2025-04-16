@@ -80,7 +80,7 @@ class BaseApi {
   }
 
   // PUT Request
-  static Future<Response> put(String endpoint, {dynamic data}) async {
+  Future<Response> put(String endpoint, {dynamic data}) async {
     try {
       Response response = await _dio.put(endpoint, data: data);
       return response;
@@ -90,7 +90,7 @@ class BaseApi {
   }
 
   // DELETE Request
-  static Future<Response> delete(String endpoint, {dynamic data}) async {
+  Future<Response> delete(String endpoint, {dynamic data}) async {
     try {
       Response response = await _dio.delete(endpoint, data: data);
       return response;

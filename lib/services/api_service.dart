@@ -39,6 +39,32 @@ class ApiService {
     print(res);
   }
 
+  static Future<List<Media>> updateImages(
+    List<File> images,
+    String reference,
+    String batchId,
+  ) async {
+    final formData = FormData();
+    for (var image in images) {
+      formData.files.add(
+        MapEntry(
+          'images',
+          await MultipartFile.fromFile(
+            image.path,
+            filename: image.path.split('/').last,
+          ),
+        ),
+      );
+    }
+    formData.fields.add(MapEntry('reference', reference));
+    formData.fields.add(MapEntry('batchId', batchId));
+    final res = await BaseApi().post(ApiEndpoints.updateImages, data: formData);
+    print(res);
+    return (res.data['data'])
+        .map<Media>((e) => Media.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
   static Future<List<Media>> getImages() async {
     final response = await BaseApi().get(ApiEndpoints.getImages);
     if (response.statusCode == 200) {
@@ -67,5 +93,12 @@ class ApiService {
     } else {
       throw Exception('Failed to load batches');
     }
+  }
+
+  static Future<void> deleteMedia(List<String> mediaIds) async {
+    await BaseApi().delete(
+      ApiEndpoints.deleteBulkMedia,
+      data: {'mediaIds': mediaIds},
+    );
   }
 }

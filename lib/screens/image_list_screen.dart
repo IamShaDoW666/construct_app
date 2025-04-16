@@ -220,10 +220,18 @@ class _ImageListScreenState extends State<ImageListScreen> {
                                         size: 24,
                                       ),
                                       onPressed: () {
-                                        context.push(
-                                          AppRoutes.imageGridView,
-                                          extra: batch,
-                                        );
+                                        context
+                                            .push(
+                                              AppRoutes.imageGridView,
+                                              extra: batch,
+                                            )
+                                            .then((didChange) {
+                                              if (didChange != null &&
+                                                  didChange == true) {
+                                                setState(() {});
+                                                _batchesFuture = fetchBatches();
+                                              }
+                                            });
                                       },
                                     ),
                                   ],
