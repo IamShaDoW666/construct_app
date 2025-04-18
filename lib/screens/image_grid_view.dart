@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicon/constants/keys.dart';
@@ -8,10 +9,13 @@ import 'package:digicon/services/api_service.dart';
 import 'package:digicon/services/network.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ImageGridView extends StatefulWidget {
   const ImageGridView({super.key, required this.batch});
@@ -215,6 +219,64 @@ class _ImageGridViewState extends State<ImageGridView> {
     );
   }
 
+  Future<void> shareImages(List<ImageProvider> images) async {
+    final List<XFile> filesToShare = [];
+    _isLoading = true;
+    setState(() {});
+    for (final image in images) {
+      try {
+        if (image is FileImage) {
+          filesToShare.add(XFile(image.file.path));
+        } else if (image is NetworkImage) {
+          // Download the image
+          final response = await http.get(Uri.parse(image.url));
+          final bytes = response.bodyBytes;
+
+          // Save to temp file
+          final tempDir = await getTemporaryDirectory();
+          final fileName = Uri.parse(image.url).pathSegments.last;
+          final file = File('${tempDir.path}/$fileName');
+          await file.writeAsBytes(bytes);
+
+          filesToShare.add(XFile(file.path));
+        }
+      } catch (e) {
+        print('Error handling image: $e');
+      }
+    }
+    _isLoading = false;
+    setState(() {});
+    if (filesToShare.isNotEmpty) {
+      await Share.shareXFiles(filesToShare, text: 'Sharing multiple images 🚀');
+    } else {
+      print('No images to share.');
+    }
+  }
+
+  Future<void> shareImage(ImageProvider imageProvider) async {
+    try {
+      if (imageProvider is FileImage) {
+        // Image is already a local file
+        final file = imageProvider.file;
+        Share.shareXFiles([XFile(file.path)], text: 'Check this out!');
+      } else if (imageProvider is NetworkImage) {
+        // Download and save the network image
+        final response = await http.get(Uri.parse(imageProvider.url));
+        final bytes = response.bodyBytes;
+
+        final tempDir = await getTemporaryDirectory();
+        final file = File('${tempDir.path}/shared_image.jpg');
+        await file.writeAsBytes(bytes);
+
+        Share.shareXFiles([XFile(file.path)], text: 'Check this out!');
+      } else {
+        print('Unsupported image type');
+      }
+    } catch (e) {
+      print('Failed to share image: $e');
+    }
+  }
+
   void _openFullScreen(int index, {required bool isExisting}) {
     final images =
         isExisting
@@ -229,8 +291,18 @@ class _ImageGridViewState extends State<ImageGridView> {
         builder:
             (_) => Scaffold(
               appBar: AppBar(
-                title: const Text('Image Viewer'),
+                title: Text(
+                  'Image Viewer',
+                  style: TextStyle(color: Colors.grey[500]),
+                ),
                 backgroundColor: Colors.black,
+                iconTheme: const IconThemeData(color: Colors.grey),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.share),
+                    onPressed: () => shareImage(images[index]),
+                  ),
+                ],
               ),
               body: PhotoViewGallery.builder(
                 itemCount: images.length,
@@ -242,7 +314,7 @@ class _ImageGridViewState extends State<ImageGridView> {
                     ),
                 pageController: PageController(initialPage: index),
                 scrollPhysics: const BouncingScrollPhysics(),
-                backgroundDecoration: const BoxDecoration(color: Colors.black),
+                // backgroundDecoration: const BoxDecoration(color: Colors.black),
               ),
             ),
       ),
@@ -254,7 +326,21 @@ class _ImageGridViewState extends State<ImageGridView> {
     final itemCount = _existing.length + _newFiles.length + 1;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Batch Images")),
+      appBar: AppBar(
+        title: const Text("Batch Images"),
+        actions: [
+          IconButton(
+            onPressed:
+                () => {
+                  shareImages([
+                    ..._existing.map((m) => NetworkImage(m.url)),
+                    ..._newFiles.map((f) => FileImage(f)),
+                  ]),
+                },
+            icon: Icon(Icons.share),
+          ),
+        ],
+      ),
       body:
           _isLoading
               ? const Center(child: CircularProgressIndicator())
