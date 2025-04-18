@@ -33,7 +33,7 @@ def get_local_ip():
     return ip
 
 local_ip = get_local_ip()
-server_url = f"http://{local_ip}:{PORT}"
+server_url = f"http://{local_ip}:{PORT}/app-release.apk"
 # Generate and display QR Code
 qr = pyqrcode.create(server_url)
 print(qr.terminal(quiet_zone=1))
