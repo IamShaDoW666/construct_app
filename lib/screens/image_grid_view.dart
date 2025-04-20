@@ -243,9 +243,17 @@ class _ImageGridViewState extends State<ImageGridView> {
           right: 4,
           child: GestureDetector(
             onTap: () {
-              setState(() {
-                _newFiles.removeAt(fileIndex);
-              });
+              showConfirmDialog(
+                context,
+                "Are you sure?",
+                buttonColor: Colors.red[800],
+                positiveText: "Delete",
+                negativeText: "Cancel",
+                onAccept: () {
+                  _newFiles.removeAt(fileIndex);
+                  setState(() {});
+                },
+              );
             },
             child: const CircleAvatar(
               radius: 12,
@@ -386,39 +394,50 @@ class _ImageGridViewState extends State<ImageGridView> {
               ? const Center(child: CircularProgressIndicator())
               : Column(
                 children: [
-                  GridView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: itemCount,
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                    itemBuilder: (_, idx) => _buildGridItem(idx),
+                  Expanded(
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: itemCount,
+
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                      itemBuilder: (_, idx) => _buildGridItem(idx),
+                    ),
                   ),
                   36.height,
-                  Row(
-                    children: [
-                      Text('${widget.batch.reference?.substring(0, 7)} - '),
-                      Expanded(
-                        child: TextField(
-                          controller: _referenceController,
-                          decoration: const InputDecoration(
-                            labelText: 'Enter reference',
-                            border: OutlineInputBorder(),
-                          ),
+                  SizedBox(
+                    height: context.height() / 4,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '${widget.batch.reference?.substring(0, 7)} - ',
+                            ),
+                            Expanded(
+                              child: TextField(
+                                controller: _referenceController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Enter reference',
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ).paddingSymmetric(horizontal: 8),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton(
+                            onPressed: handleUpload,
+                            child: const Text('Update Batch'),
+                          ).paddingAll(16),
                         ),
-                      ),
-                    ],
-                  ).paddingSymmetric(horizontal: 8),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton(
-                      onPressed: handleUpload,
-                      child: const Text('Update Batch'),
-                    ).paddingAll(16),
+                      ],
+                    ),
                   ),
                 ],
               ),

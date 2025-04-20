@@ -187,7 +187,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
             shrinkWrap: true,
             itemCount: itemCount,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+              crossAxisCount: 4,
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
             ),
