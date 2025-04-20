@@ -2,11 +2,13 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:digicon/components/pdf_dialog.dart';
 import 'package:digicon/constants/keys.dart';
 import 'package:digicon/constants/routes.dart';
 import 'package:digicon/data/models.dart';
 import 'package:digicon/services/api_service.dart';
 import 'package:digicon/services/network.dart';
+import 'package:digicon/utils/pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
@@ -47,6 +49,35 @@ class _ImageGridViewState extends State<ImageGridView> {
       setState(() {
         _newFiles.add(File(picked.path));
       });
+    }
+  }
+
+  Future<void> handlePdf() async {
+    if (_isLoading) return;
+    _isLoading = true;
+    setState(() {});
+    print("PDF CLICKED");
+    try {
+      final Uint8List? pdf = await convertImagesToPdf(_existing);
+      if (pdf == null) {
+        if (mounted) snackBar(title: "No images to generate PDF", context);
+        return;
+      }
+      _isLoading = false;
+      setState(() {});
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return PdfDialog(pdfName: widget.batch.reference!, pdf: pdf);
+          },
+        );
+      }
+    } catch (e) {
+      print('Error generating PDF: $e');
+    } finally {
+      _isLoading = false;
+      setState(() {});
     }
   }
 
@@ -153,10 +184,18 @@ class _ImageGridViewState extends State<ImageGridView> {
             right: 4,
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  _removedMediaIds.add(media.id);
-                  _existing.removeAt(index);
-                });
+                showConfirmDialog(
+                  context,
+                  "Are you sure?",
+                  buttonColor: Colors.red[800],
+                  positiveText: "Delete",
+                  negativeText: "Cancel",
+                  onAccept: () {
+                    _removedMediaIds.add(media.id);
+                    _existing.removeAt(index);
+                    setState(() {});
+                  },
+                );
               },
               child: const CircleAvatar(
                 radius: 12,
@@ -329,6 +368,7 @@ class _ImageGridViewState extends State<ImageGridView> {
       appBar: AppBar(
         title: const Text("Batch Images"),
         actions: [
+          IconButton(onPressed: handlePdf, icon: Icon(Icons.picture_as_pdf)),
           IconButton(
             onPressed:
                 () => {

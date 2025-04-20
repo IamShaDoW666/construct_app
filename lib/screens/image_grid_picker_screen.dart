@@ -13,7 +13,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 
 class ImageGridPickerScreen extends StatefulWidget {
   const ImageGridPickerScreen({super.key});
-  
+
   @override
   State<ImageGridPickerScreen> createState() => _ImageGridPickerScreenState();
 }
@@ -40,7 +40,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
           snackBar(title: "Image uploaded successfully", context);
           _images.clear();
           setState(() {});
-          GoRouterHelper(context).pop(true);          
+          GoRouterHelper(context).pop(true);
         } on ApiException catch (e) {
           print("Error uploading image: $e");
           snackBar(title: e.message, context);
@@ -51,7 +51,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
         } catch (e) {
           print("Error uploading image: $e");
           snackBar(title: "Error uploading image", context);
-        }                
+        }
       } else {
         snackBar(title: "Please select an image to upload", context);
       }
@@ -89,12 +89,45 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
 
   Widget _buildGridItem(int index) {
     if (index < _images.length) {
-      return GestureDetector(
-        onTap: () => _openFullScreenImage(index),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Image.file(_images[index], fit: BoxFit.cover),
-        ),
+      return Stack(
+        children: [
+          GestureDetector(
+            onTap: () => _openFullScreenImage(index),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.file(
+                _images[index],
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 4,
+            right: 4,
+            child: GestureDetector(
+              onTap: () {
+                showConfirmDialog(
+                  context,
+                  "Are you sure?",
+                  buttonColor: Colors.red[800],
+                  positiveText: "Delete",
+                  negativeText: "Cancel",
+                  onAccept: () {
+                    _images.removeAt(index);
+                    setState(() {});
+                  },
+                );
+              },
+              child: const CircleAvatar(
+                radius: 12,
+                backgroundColor: Colors.black54,
+                child: Icon(Icons.close, size: 14, color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       );
     } else {
       return GestureDetector(
@@ -121,6 +154,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
               appBar: AppBar(
                 title: const Text('Image Viewer'),
                 backgroundColor: Colors.black,
+                foregroundColor: Colors.grey[500],
               ),
               body: PhotoViewGallery.builder(
                 itemCount: _images.length,
@@ -161,7 +195,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
           ),
           Row(
             children: [
-              Text("REF0982 - "),
+              // Text("REF0982 - "),
               Expanded(
                 child: TextField(
                   controller: _referenceController,
