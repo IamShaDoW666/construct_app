@@ -68,9 +68,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
       final createdAt = batch.createdAt;
       final matchesDate =
           selectedDateRange == null ||
-          (createdAt.isAfter(
-                selectedDateRange!.start.subtract(Duration(days: 1)),
-              ) &&
+          (createdAt.isAfter(selectedDateRange!.start) &&
               createdAt.isBefore(
                 selectedDateRange!.end.add(Duration(days: 1)),
               ));
