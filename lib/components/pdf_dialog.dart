@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:digicon/utils/pdf.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
@@ -39,14 +40,20 @@ class PdfDialog extends StatelessWidget {
               Row(
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () => savePdf(pdf, pdfName),
+                    onPressed: () async {
+                      await savePdf(pdf, pdfName);
+                      snackBar(context, title: 'PDF saved to device');
+                      GoRouterHelper(context).pop();                      
+                    },
                     icon: const Icon(Icons.save),
                     label: const Text('Save to Device'),
                   ),
                   const SizedBox(width: 12),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      sharePdfFromBytes(pdf, fileName: pdfName);
+                    onPressed: () async {
+                      await sharePdfFromBytes(pdf, fileName: pdfName);
+                      snackBar(context, title: 'PDF shared');
+                      GoRouterHelper(context).pop();
                     },
                     icon: const Icon(Icons.share),
                     label: const Text('Share'),
