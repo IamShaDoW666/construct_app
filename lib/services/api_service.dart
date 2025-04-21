@@ -101,4 +101,11 @@ class ApiService {
       data: {'mediaIds': mediaIds},
     );
   }
+
+  static Future<void> deleteBatch(String batchId) async {
+    await BaseApi().delete(
+      '${ApiEndpoints.deleteBatch}/$batchId',
+      data: {'batchId': batchId},
+    );
+  }
 }

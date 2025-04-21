@@ -108,13 +108,13 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
             right: 4,
             child: GestureDetector(
               onTap: () {
-                showConfirmDialog(
+                showConfirmDialogCustom(
                   context,
-                  "Are you sure?",
-                  buttonColor: Colors.red[800],
+                  title: "Are you sure?",
+                  dialogType: DialogType.DELETE,                  
                   positiveText: "Delete",
                   negativeText: "Cancel",
-                  onAccept: () {
+                  onAccept: (context) {
                     _images.removeAt(index);
                     setState(() {});
                   },

@@ -81,6 +81,37 @@ class _ImageGridViewState extends State<ImageGridView> {
     }
   }
 
+  Future<void> handleDelete() async {
+    if (_isLoading) return;
+
+    showConfirmDialogCustom(
+      context,
+      title: "Are you sure?",      
+      positiveText: "Delete",
+      negativeText: "Cancel",
+      dialogType: DialogType.DELETE,
+      onAccept: (context) async {
+        _isLoading = true;
+        setState(() {});
+        try {
+          await ApiService.deleteBatch(widget.batch.id);
+          _isLoading = false;
+          setState(() {});
+          snackBar(title: "Batch deleted successfully", context);
+          GoRouter.of(context).pop(true);
+        } on ApiException catch (e) {
+          _isLoading = false;
+          setState(() {});
+          snackBar(title: 'Error! ${e.message}', context);
+        } catch (e) {
+          _isLoading = false;
+          setState(() {});
+          snackBar(title: "$e", context);
+        }
+      },
+    );
+  }
+
   Future<void> handleUpload() async {
     if (_isLoading) return;
     _isLoading = true;
@@ -184,13 +215,13 @@ class _ImageGridViewState extends State<ImageGridView> {
             right: 4,
             child: GestureDetector(
               onTap: () {
-                showConfirmDialog(
+                showConfirmDialogCustom(
                   context,
-                  "Are you sure?",
-                  buttonColor: Colors.red[800],
+                  title: "Are you sure?",
+                  dialogType: DialogType.DELETE,
                   positiveText: "Delete",
                   negativeText: "Cancel",
-                  onAccept: () {
+                  onAccept: (context) {
                     _removedMediaIds.add(media.id);
                     _existing.removeAt(index);
                     setState(() {});
@@ -243,13 +274,13 @@ class _ImageGridViewState extends State<ImageGridView> {
           right: 4,
           child: GestureDetector(
             onTap: () {
-              showConfirmDialog(
+              showConfirmDialogCustom(
                 context,
-                "Are you sure?",
-                buttonColor: Colors.red[800],
+                title: "Are you sure?",
+                dialogType: DialogType.DELETE,
                 positiveText: "Delete",
                 negativeText: "Cancel",
-                onAccept: () {
+                onAccept: (context) {
                   _newFiles.removeAt(fileIndex);
                   setState(() {});
                 },
@@ -429,12 +460,27 @@ class _ImageGridViewState extends State<ImageGridView> {
                             ),
                           ],
                         ).paddingSymmetric(horizontal: 8),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            onPressed: handleUpload,
-                            child: const Text('Update Batch'),
-                          ).paddingAll(16),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: handleDelete,
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all<Color>(
+                                  Theme.of(context).colorScheme.errorContainer,
+                                ),
+                                foregroundColor: WidgetStateProperty.all(
+                                  Theme.of(context).colorScheme.error,
+                                ),
+                              ),
+                              child: const Text('Delete Batch'),
+                            ).paddingAll(16),
+                            ElevatedButton(
+                              onPressed: handleUpload,
+                              child: const Text('Update Batch'),
+                            ).paddingAll(16),
+                          ],
                         ),
                       ],
                     ),

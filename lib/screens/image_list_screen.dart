@@ -91,7 +91,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: context.cardColor,                
               ),
               onChanged: (value) {
                 setState(() {
