@@ -1,4 +1,6 @@
+import 'package:digicon/utils/common.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:digicon/constants/keys.dart';
 
@@ -6,7 +8,8 @@ class ApiException implements Exception {
   final String message;
   final int? statusCode;
   final dynamic data;
-  ApiException(this.message, {this.statusCode, this.data});
+  final DioException? error;
+  ApiException(this.message, this.error, {this.statusCode, this.data});
 
   @override
   String toString() {
@@ -14,11 +17,20 @@ class ApiException implements Exception {
   }
 }
 
+class InternetException implements Exception {
+  final String message;
+  InternetException(this.message);
+  @override
+  String toString() {
+    return "No internet connection";
+  }
+}
+
 class BaseApi {
   static final Dio _dio = Dio(
     BaseOptions(
       baseUrl: '${Constants.baseUrl}/api', // Replace with your API base URL
-      connectTimeout: Duration(seconds: 10),
+      connectTimeout: Duration(seconds:10),
       receiveTimeout: Duration(seconds: 10),
       headers: {"Content-Type": "application/json"},
     ),
@@ -58,24 +70,36 @@ class BaseApi {
 
   // GET Request
   Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {
-    print("GET: $endpoint, data: $params");
-    try {
-      final response = await _dio.get(endpoint, queryParameters: params);
-      return response;
-    } catch (e) {
-      return Future.error(_handleError(e));
+    if (await hasInternet()) {
+      print("GET: $endpoint, data: $params");
+      try {
+        final response = await _dio.get(endpoint, queryParameters: params);
+        if (response.statusCode == 401) {
+          removeKey(Constants.jwtKey);
+          removeKey(Constants.user);          
+        }
+        return response;
+      } catch (e) {
+        return Future.error(_handleError(e));
+      }
+    } else {
+      return throw InternetException("No internet connection");
     }
   }
 
   // POST Request
   Future<Response> post(String endpoint, {dynamic data}) async {
-    print("POST: $endpoint, data: $data");
-    try {
-      Response response = await _dio.post(endpoint, data: data);
-      return response;
-    } catch (e) {
-      print("Error: $e");
-      return Future.error(_handleError(e));
+    if (await hasInternet()) {
+      print("POST: $endpoint, data: $data"); 
+      try {
+        Response response = await _dio.post(endpoint, data: data);
+        return response;
+      } catch (e) {
+        print("Error: $e");
+        return Future.error(_handleError(e));
+      }
+    } else {
+      return throw InternetException("No internet connection");
     }
   }
 
@@ -103,16 +127,22 @@ class BaseApi {
   static Exception _handleError(dynamic error) {
     if (error is DioException) {
       if (error.response != null) {
-        return ApiException(
+        final exception = ApiException(
           error.response?.data["message"] ?? "Unknown error",
+          error,
           statusCode: error.response?.statusCode,
           data: error.response,
         );
+        // print(exception.error.type);
+        throw exception;
       } else {
-        throw ApiException(
+        final exception = ApiException(
           error.message ?? error.toString(),
+          error,
           statusCode: error.response?.statusCode,
         );
+        // print(exception.error.toString());
+        throw exception;
       }
     }
     return error;

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:digicon/constants/endpoints.dart';
 import 'package:digicon/data/models.dart';
 import 'package:digicon/services/network.dart';
+import 'package:http/retry.dart';
 
 class ApiService {
   static Future<void> uploadImage(String filePath) async {
@@ -21,7 +22,7 @@ class ApiService {
     print(res);
   }
 
-  static Future<void> uploadImages(List<File> images, String reference) async {
+  static Future<bool> uploadImages(List<File> images, String reference) async {
     final formData = FormData();
     for (var image in images) {
       formData.files.add(
@@ -35,8 +36,17 @@ class ApiService {
       );
     }
     formData.fields.add(MapEntry('reference', reference));
-    final res = await BaseApi().post(ApiEndpoints.uploadImages, data: formData);
-    print(res);
+    try {
+      final res = await BaseApi().post(
+        ApiEndpoints.uploadImages,
+        data: formData,
+      );
+      print(res);
+      return true;
+    } catch (e) {
+      print("YEP: $e");
+      return false;
+    }
   }
 
   static Future<List<Media>> updateImages(

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:digicon/constants/keys.dart';
 import 'package:digicon/constants/routes.dart';
-import 'package:digicon/services/api_service.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
           alignment: Alignment.centerLeft,
           child: Text(
             'Hello, ${getStringAsync(Constants.user)}',
-            style: context.textTheme.displaySmall!.copyWith(
+            style: context.textTheme.headlineMedium!.copyWith(
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.left,

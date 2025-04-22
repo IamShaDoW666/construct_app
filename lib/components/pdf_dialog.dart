@@ -41,9 +41,11 @@ class PdfDialog extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () async {
-                      await savePdf(pdf, pdfName);
-                      snackBar(context, title: 'PDF saved to device');
-                      GoRouterHelper(context).pop();                      
+                      final res = await savePdf(pdf, pdfName);
+                      if (res != null) {
+                        snackBar(context, title: 'PDF saved to device');
+                        GoRouterHelper(context).pop();
+                      }
                     },
                     icon: const Icon(Icons.save),
                     label: const Text('Save to Device'),
@@ -51,9 +53,13 @@ class PdfDialog extends StatelessWidget {
                   const SizedBox(width: 12),
                   ElevatedButton.icon(
                     onPressed: () async {
-                      await sharePdfFromBytes(pdf, fileName: pdfName);
-                      snackBar(context, title: 'PDF shared');
-                      GoRouterHelper(context).pop();
+                      final res = await sharePdfFromBytes(
+                        pdf,
+                        fileName: pdfName,
+                      );
+                      if (res.validate()) {                       
+                        GoRouterHelper(context).pop();
+                      }
                     },
                     icon: const Icon(Icons.share),
                     label: const Text('Share'),

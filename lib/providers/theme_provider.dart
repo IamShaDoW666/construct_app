@@ -21,6 +21,7 @@ class ThemeProvider extends ChangeNotifier {
               ),
             )
           : ThemeData.light().copyWith(
+          
             dialogTheme: DialogTheme(
               backgroundColor: Colors.white,
               titleTextStyle: TextStyle(color: Colors.black),

@@ -37,7 +37,7 @@ Future<Uint8List> _generatePdf(List<Uint8List> images) async {
   return pdf.save();
 }
 
-Future<File?> savePdf(Uint8List pdfBytes, String defaultFileName) async {
+Future<String?> savePdf(Uint8List pdfBytes, String defaultFileName) async {
   // Open the native save dialog
   String? selectedPath = await FilePicker.platform.saveFile(
     dialogTitle: 'Save PDF',
@@ -47,16 +47,16 @@ Future<File?> savePdf(Uint8List pdfBytes, String defaultFileName) async {
     bytes: pdfBytes,
   );
 
-  final file = File(selectedPath!);
-  await file.writeAsBytes(pdfBytes);
-  return file;
+  // final file = File(selectedPath!);
+  // await file.writeAsBytes(pdfBytes);
+  return selectedPath;
 }
 
 Future<void> sharePdf(XFile file) async {
   await Share.shareXFiles([file], text: 'Here is your PDF document.');
 }
 
-Future<void> sharePdfFromBytes(Uint8List pdfBytes, {String? fileName}) async {
+Future<bool> sharePdfFromBytes(Uint8List pdfBytes, {String? fileName}) async {
   try {
     // Get the temporary directory
     final tempDir = await getTemporaryDirectory();
@@ -72,12 +72,18 @@ Future<void> sharePdfFromBytes(Uint8List pdfBytes, {String? fileName}) async {
     await file.writeAsBytes(pdfBytes);
 
     // Share the file
-    await Share.shareXFiles([
+    final shareResult = await Share.shareXFiles([
       XFile(file.path, name: '$fileName.pdf'),
     ], text: '$fileName.pdf' ?? 'Here is your PDF document.');
+    if (shareResult.status == ShareResultStatus.success) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (e) {
     // Handle any errors
     print('Error sharing PDF: $e');
+    return false;
   }
 }
 

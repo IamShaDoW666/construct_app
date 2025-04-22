@@ -1,5 +1,7 @@
 import 'package:digicon/constants/routes.dart';
+import 'package:digicon/services/network.dart';
 import 'package:digicon/utils/common.dart';
+import 'package:digicon/utils/debug.dart';
 import 'package:flutter/material.dart';
 import 'package:digicon/data/models.dart';
 import 'package:digicon/services/api_service.dart';
@@ -34,13 +36,9 @@ class _ImageListScreenState extends State<ImageListScreen> {
   //   }
   // }
 
-  Future<List<Batch>> fetchBatches() async {
-    try {
-      final res = await ApiService.getBatches();
-      return res;
-    } catch (e) {
-      throw Exception('Error fetching batches: $e');
-    }
+  Future<List<Batch>> fetchBatches() async {    
+    final res = await ApiService.getBatches();
+    return res;
   }
 
   void _pickDateRange() async {
@@ -91,7 +89,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 filled: true,
-                fillColor: context.cardColor,                
+                fillColor: context.cardColor,
               ),
               onChanged: (value) {
                 setState(() {
@@ -114,7 +112,8 @@ class _ImageListScreenState extends State<ImageListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Uploaded Images')),
+      appBar: AppBar(title: Text('Uploaded Images'), actions: [DebugButton()],),
+    
       body: FutureBuilder<List<Batch>>(
         future: _batchesFuture,
         builder: (context, snapshot) {
@@ -123,7 +122,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
           }
 
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text(snapshot.error.toString()));
           }
 
           final batches = snapshot.data ?? [];
@@ -246,3 +245,5 @@ class _ImageListScreenState extends State<ImageListScreen> {
     );
   }
 }
+
+

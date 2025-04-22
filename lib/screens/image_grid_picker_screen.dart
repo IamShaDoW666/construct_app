@@ -22,7 +22,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
   final List<File> _images = [];
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _referenceController = TextEditingController();
-
+  bool _isLoading = false;
   Future<void> _pickImage(ImageSource source) async {
     final XFile? picked = await _picker.pickImage(source: source);
     if (picked != null) {
@@ -33,28 +33,27 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
   }
 
   Future<void> handleUpload() async {
-    if (mounted) {
-      if (_images.isNotEmpty) {
-        try {
-          await ApiService.uploadImages(_images, _referenceController.text);
-          snackBar(title: "Image uploaded successfully", context);
-          _images.clear();
-          setState(() {});
-          GoRouterHelper(context).pop(true);
-        } on ApiException catch (e) {
-          print("Error uploading image: $e");
-          snackBar(title: e.message, context);
-          if (e.statusCode == 401) {
-            removeKey(Constants.jwtKey);
-            context.push(AppRoutes.login);
-          }
-        } catch (e) {
-          print("Error uploading image: $e");
-          snackBar(title: "Error uploading image", context);
-        }
+    if (_images.isNotEmpty) {
+      if (_isLoading) return;
+      _isLoading = true;
+      setState(() {});
+      final res = await ApiService.uploadImages(
+        _images,
+        _referenceController.text,
+      );
+      if (res) {
+        if (mounted) snackBar(title: "Image uploaded successfully", context);
+        _isLoading = false;
+        _images.clear();
+        setState(() {});
+        GoRouterHelper(context).pop(true);
       } else {
-        snackBar(title: "Please select an image to upload", context);
+        _isLoading = false;
+        setState(() {});
+        snackBar(context, title: "No internet connection");
       }
+    } else {
+      snackBar(title: "Please select an image to upload", context);
     }
   }
 
@@ -111,7 +110,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
                 showConfirmDialogCustom(
                   context,
                   title: "Are you sure?",
-                  dialogType: DialogType.DELETE,                  
+                  dialogType: DialogType.DELETE,
                   positiveText: "Delete",
                   negativeText: "Cancel",
                   onAccept: (context) {
@@ -211,7 +210,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
             alignment: Alignment.centerRight,
             child: ElevatedButton(
               onPressed: handleUpload,
-              child: const Text('Upload'),
+              child: _isLoading ? CircularProgressIndicator() : Text('Upload'),
             ).paddingAll(16),
           ),
         ],

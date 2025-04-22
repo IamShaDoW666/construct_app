@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp.router(
-      title: 'Flutter Demo',      
+      title: 'DigiCon',      
       theme: themeProvider.currentTheme,      
       routerConfig: router,
       debugShowCheckedModeBanner: false,

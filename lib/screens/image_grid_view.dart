@@ -86,7 +86,7 @@ class _ImageGridViewState extends State<ImageGridView> {
 
     showConfirmDialogCustom(
       context,
-      title: "Are you sure?",      
+      title: "Are you sure?",
       positiveText: "Delete",
       negativeText: "Cancel",
       dialogType: DialogType.DELETE,
@@ -114,14 +114,13 @@ class _ImageGridViewState extends State<ImageGridView> {
 
   Future<void> handleUpload() async {
     if (_isLoading) return;
-    _isLoading = true;
     if (_newFiles.isEmpty &&
         _removedMediaIds.isEmpty &&
         _referenceController.text == widget.batch.reference!.substring(7)) {
       snackBar(title: "No changes to update", context);
       return;
     }
-
+    _isLoading = true;
     try {
       // Upload new images
       if (_newFiles.isNotEmpty ||
@@ -478,7 +477,10 @@ class _ImageGridViewState extends State<ImageGridView> {
                             ).paddingAll(16),
                             ElevatedButton(
                               onPressed: handleUpload,
-                              child: const Text('Update Batch'),
+                              child:
+                                  _isLoading
+                                      ? CircularProgressIndicator()
+                                      : const Text('Update Batch'),
                             ).paddingAll(16),
                           ],
                         ),

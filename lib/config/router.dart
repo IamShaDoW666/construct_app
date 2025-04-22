@@ -1,6 +1,7 @@
 import 'package:digicon/data/models.dart';
 import 'package:digicon/screens/image_grid_picker_screen.dart';
 import 'package:digicon/screens/image_grid_view.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:digicon/constants/keys.dart';
@@ -39,7 +40,7 @@ final GoRouter router = GoRouter(
     } catch (e) {
       // Handle JWT decoding error
       print("JWT decoding error: $e");
-      removeKey(Constants.jwtKey);
+      removeKey(Constants.jwtKey);          
       return AppRoutes.login;
     }
     return null;
