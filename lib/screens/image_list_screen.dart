@@ -36,7 +36,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
   //   }
   // }
 
-  Future<List<Batch>> fetchBatches() async {    
+  Future<List<Batch>> fetchBatches() async {
     final res = await ApiService.getBatches();
     return res;
   }
@@ -112,8 +112,8 @@ class _ImageListScreenState extends State<ImageListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Uploaded Images'), actions: [DebugButton()],),
-    
+      appBar: AppBar(title: Text('Uploaded Images')),
+
       body: FutureBuilder<List<Batch>>(
         future: _batchesFuture,
         builder: (context, snapshot) {
@@ -122,7 +122,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
           }
 
           if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
+            return Center(child: Text("Request timed out"));
           }
 
           final batches = snapshot.data ?? [];
@@ -245,5 +245,3 @@ class _ImageListScreenState extends State<ImageListScreen> {
     );
   }
 }
-
-

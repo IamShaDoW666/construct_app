@@ -148,6 +148,7 @@ class _ImageGridViewState extends State<ImageGridView> {
       GoRouter.of(context).pop(true);
     } on ApiException catch (e) {
       _isLoading = false;
+      print(e);
       snackBar(title: 'Error! ${e.message}', context);
       if (e.statusCode == 401) {
         removeKey(Constants.jwtKey);
@@ -155,6 +156,7 @@ class _ImageGridViewState extends State<ImageGridView> {
       }
     } catch (e) {
       _isLoading = false;
+      print(e);
       snackBar(title: "$e", context);
     }
   }

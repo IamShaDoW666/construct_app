@@ -4,6 +4,6 @@ class Constants {
   static const String jwtKey = 'jwt';
   static const String user = 'user';
   static const String baseUrl =
-      'https://app.lovosis.in'; // Replace with your API base URL
+      'https://api.lovosis.in'; // Replace with your API base URL
   static const String isDarkMode = 'isDarkMode';
 }

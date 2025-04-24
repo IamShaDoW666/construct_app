@@ -68,7 +68,7 @@ class ApiService {
     }
     formData.fields.add(MapEntry('reference', reference));
     formData.fields.add(MapEntry('batchId', batchId));
-    final res = await BaseApi().post(ApiEndpoints.updateImages, data: formData);
+    final res = await BaseApi().put(ApiEndpoints.updateImages, data: formData);
     print(res);
     return (res.data['data'])
         .map<Media>((e) => Media.fromJson(e as Map<String, dynamic>))

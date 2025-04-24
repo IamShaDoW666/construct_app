@@ -30,7 +30,7 @@ class BaseApi {
   static final Dio _dio = Dio(
     BaseOptions(
       baseUrl: '${Constants.baseUrl}/api', // Replace with your API base URL
-      connectTimeout: Duration(seconds:10),
+      connectTimeout: Duration(seconds: 10),
       receiveTimeout: Duration(seconds: 10),
       headers: {"Content-Type": "application/json"},
     ),
@@ -70,36 +70,28 @@ class BaseApi {
 
   // GET Request
   Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {
-    if (await hasInternet()) {
-      print("GET: $endpoint, data: $params");
-      try {
-        final response = await _dio.get(endpoint, queryParameters: params);
-        if (response.statusCode == 401) {
-          removeKey(Constants.jwtKey);
-          removeKey(Constants.user);          
-        }
-        return response;
-      } catch (e) {
-        return Future.error(_handleError(e));
+    print("GET: $endpoint, data: $params");
+    try {
+      final response = await _dio.get(endpoint, queryParameters: params);
+      if (response.statusCode == 401) {
+        removeKey(Constants.jwtKey);
+        removeKey(Constants.user);
       }
-    } else {
-      return throw InternetException("No internet connection");
+      return response;
+    } catch (e) {
+      return Future.error(_handleError(e));
     }
   }
 
   // POST Request
   Future<Response> post(String endpoint, {dynamic data}) async {
-    if (await hasInternet()) {
-      print("POST: $endpoint, data: $data"); 
-      try {
-        Response response = await _dio.post(endpoint, data: data);
-        return response;
-      } catch (e) {
-        print("Error: $e");
-        return Future.error(_handleError(e));
-      }
-    } else {
-      return throw InternetException("No internet connection");
+    print("POST: $endpoint, data: $data");
+    try {
+      Response response = await _dio.post(endpoint, data: data);
+      return response;
+    } catch (e) {
+      print("Error: $e");
+      return Future.error(_handleError(e));
     }
   }
 
