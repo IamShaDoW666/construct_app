@@ -1,7 +1,6 @@
 import 'package:digicon/data/models.dart';
 import 'package:digicon/screens/image_grid_picker_screen.dart';
 import 'package:digicon/screens/image_grid_view.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:digicon/constants/keys.dart';
@@ -21,10 +20,22 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(path: AppRoutes.login, builder: (context, state) => LoginScreen()),
     GoRoute(path: AppRoutes.home, builder: (context, state) => HomeScreen()),
-    GoRoute(path: AppRoutes.image, builder: (context, state) => ImagePickerScreen()),
-    GoRoute(path: AppRoutes.imageList, builder: (context, state) => ImageListScreen()),
-    GoRoute(path: AppRoutes.imageGridPicker, builder: (context, state) => ImageGridPickerScreen()),
-    GoRoute(path: AppRoutes.imageGridView, builder: (context, state) => ImageGridView(batch: state.extra as Batch)),
+    GoRoute(
+      path: AppRoutes.image,
+      builder: (context, state) => ImagePickerScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.batches,
+      builder: (context, state) => ImageListScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.batchCreate,
+      builder: (context, state) => ImageGridPickerScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.batchDetails,
+      builder: (context, state) => ImageGridView(batch: state.extra as Batch),
+    ),
   ],
   redirect: (context, state) {
     try {
@@ -40,7 +51,7 @@ final GoRouter router = GoRouter(
     } catch (e) {
       // Handle JWT decoding error
       print("JWT decoding error: $e");
-      removeKey(Constants.jwtKey);          
+      removeKey(Constants.jwtKey);
       return AppRoutes.login;
     }
     return null;

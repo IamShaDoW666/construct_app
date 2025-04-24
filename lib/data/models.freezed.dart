@@ -158,7 +158,7 @@ as T,
 /// @nodoc
 mixin _$User {
 
- String get id; String? get name; String get email; String? get password; DateTime get createdAt; DateTime get updatedAt;
+ String get id; String? get name; String get email; String? get password; String? get profile; String get role; String? get phone; List<Media>? get media; List<Batch>? get batches; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -171,16 +171,16 @@ $UserCopyWith<User> get copyWith => _$UserCopyWithImpl<User>(this as User, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.role, role) || other.role == role)&&(identical(other.phone, phone) || other.phone == phone)&&const DeepCollectionEquality().equals(other.media, media)&&const DeepCollectionEquality().equals(other.batches, batches)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,password,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,email,password,profile,role,phone,const DeepCollectionEquality().hash(media),const DeepCollectionEquality().hash(batches),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'User(id: $id, name: $name, email: $email, password: $password, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'User(id: $id, name: $name, email: $email, password: $password, profile: $profile, role: $role, phone: $phone, media: $media, batches: $batches, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -191,7 +191,7 @@ abstract mixin class $UserCopyWith<$Res>  {
   factory $UserCopyWith(User value, $Res Function(User) _then) = _$UserCopyWithImpl;
 @useResult
 $Res call({
- String id, String? name, String email, String? password, DateTime createdAt, DateTime updatedAt
+ String id, String? name, String email, String? password, String? profile, String role, String? phone, List<Media>? media, List<Batch>? batches, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -208,13 +208,18 @@ class _$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = freezed,Object? email = null,Object? password = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = freezed,Object? email = null,Object? password = freezed,Object? profile = freezed,Object? role = null,Object? phone = freezed,Object? media = freezed,Object? batches = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,password: freezed == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,profile: freezed == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
+as String?,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,media: freezed == media ? _self.media : media // ignore: cast_nullable_to_non_nullable
+as List<Media>?,batches: freezed == batches ? _self.batches : batches // ignore: cast_nullable_to_non_nullable
+as List<Batch>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -227,13 +232,34 @@ as DateTime,
 @JsonSerializable()
 
 class _User implements User {
-  const _User({required this.id, this.name, required this.email, this.password, required this.createdAt, required this.updatedAt});
+  const _User({required this.id, this.name, required this.email, this.password, this.profile, required this.role, this.phone, final  List<Media>? media, final  List<Batch>? batches, required this.createdAt, required this.updatedAt}): _media = media,_batches = batches;
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override final  String id;
 @override final  String? name;
 @override final  String email;
 @override final  String? password;
+@override final  String? profile;
+@override final  String role;
+@override final  String? phone;
+ final  List<Media>? _media;
+@override List<Media>? get media {
+  final value = _media;
+  if (value == null) return null;
+  if (_media is EqualUnmodifiableListView) return _media;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<Batch>? _batches;
+@override List<Batch>? get batches {
+  final value = _batches;
+  if (value == null) return null;
+  if (_batches is EqualUnmodifiableListView) return _batches;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 
@@ -250,16 +276,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.role, role) || other.role == role)&&(identical(other.phone, phone) || other.phone == phone)&&const DeepCollectionEquality().equals(other._media, _media)&&const DeepCollectionEquality().equals(other._batches, _batches)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,password,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,email,password,profile,role,phone,const DeepCollectionEquality().hash(_media),const DeepCollectionEquality().hash(_batches),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'User(id: $id, name: $name, email: $email, password: $password, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'User(id: $id, name: $name, email: $email, password: $password, profile: $profile, role: $role, phone: $phone, media: $media, batches: $batches, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -270,7 +296,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) _then) = __$UserCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String? name, String email, String? password, DateTime createdAt, DateTime updatedAt
+ String id, String? name, String email, String? password, String? profile, String role, String? phone, List<Media>? media, List<Batch>? batches, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -287,13 +313,18 @@ class __$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = freezed,Object? email = null,Object? password = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = freezed,Object? email = null,Object? password = freezed,Object? profile = freezed,Object? role = null,Object? phone = freezed,Object? media = freezed,Object? batches = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_User(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,password: freezed == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,profile: freezed == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
+as String?,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,media: freezed == media ? _self._media : media // ignore: cast_nullable_to_non_nullable
+as List<Media>?,batches: freezed == batches ? _self._batches : batches // ignore: cast_nullable_to_non_nullable
+as List<Batch>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

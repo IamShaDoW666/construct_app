@@ -3,7 +3,7 @@ class AppRoutes {
   static const String login = '/login';
   static const String home = '/home';
   static const String image = '/image';
-  static const String imageList = '/images';
-  static const String imageGridPicker = '/image-grid-picker';
-  static const String imageGridView = '/image-grid-view';
+  static const String batches = '/batches';
+  static const String batchCreate = '/batches/create';
+  static const String batchDetails = '/batches/details';
 }

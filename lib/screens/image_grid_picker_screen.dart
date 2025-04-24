@@ -21,11 +21,23 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
   final TextEditingController _referenceController = TextEditingController();
   bool _isLoading = false;
   Future<void> _pickImage(ImageSource source) async {
-    final XFile? picked = await _picker.pickImage(source: source);
-    if (picked != null) {
-      setState(() {
-        _images.add(File(picked.path));
-      });
+    if (source == ImageSource.gallery) {
+      final List<XFile> pickedFiles = await _picker.pickMultiImage(
+        // Optional: Adjust image quality
+      );
+
+      if (pickedFiles.isNotEmpty) {
+        setState(() {
+          _images.addAll(pickedFiles.map((xfile) => File(xfile.path)));
+        });
+      }
+    } else {
+      final XFile? picked = await _picker.pickImage(source: source);
+      if (picked != null) {
+        setState(() {
+          _images.add(File(picked.path));
+        });
+      }
     }
   }
 
@@ -175,7 +187,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
     final int itemCount = _images.length + 1;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Image Grid Picker')),
+      appBar: AppBar(title: const Text('Add Batch')),
       body: Column(
         children: [
           // Wrap GridView inside Expanded to prevent overflow
@@ -189,6 +201,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
             ),
             itemBuilder: (context, index) => _buildGridItem(index),
           ),
+          32.height,
           Row(
             children: [
               // Text("REF0982 - "),

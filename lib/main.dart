@@ -1,9 +1,8 @@
-import 'package:digicon/constants/keys.dart';
 import 'package:digicon/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'config/router.dart';
+import 'config/router_new.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +27,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp.router(
-      title: 'DigiCon',      
-      theme: themeProvider.currentTheme,      
+      title: 'DigiCon',
+      theme: themeProvider.currentTheme,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );

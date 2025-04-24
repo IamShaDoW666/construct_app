@@ -44,11 +44,23 @@ class _ImageGridViewState extends State<ImageGridView> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    final XFile? picked = await _picker.pickImage(source: source);
-    if (picked != null) {
-      setState(() {
-        _newFiles.add(File(picked.path));
-      });
+    if (source == ImageSource.gallery) {
+      final List<XFile> pickedFiles = await _picker.pickMultiImage(
+        // Optional: Adjust image quality
+      );
+
+      if (pickedFiles.isNotEmpty) {
+        setState(() {
+          _newFiles.addAll(pickedFiles.map((xfile) => File(xfile.path)));
+        });
+      }
+    } else {
+      final XFile? picked = await _picker.pickImage(source: source);
+      if (picked != null) {
+        setState(() {
+          _newFiles.add(File(picked.path));
+        });
+      }
     }
   }
 

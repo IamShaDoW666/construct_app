@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    super.initState();    
+    super.initState();
     Future.delayed(Duration(seconds: 2), checkAuth);
   }
 
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ); // Use JwtDecoder from jwt_decoder package
       if (isAuthenticated) {
         setValue(Constants.user, JwtDecoder.decode(token)!['name']);
-        context.go(AppRoutes.home);
+        context.go(AppRoutes.batches);
       } else {
         context.go(AppRoutes.login);
       }

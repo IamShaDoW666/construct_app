@@ -43,9 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
         String token = response.data['data']['token'];
         setValue(Constants.jwtKey, token);
         setValue(Constants.user, response.data['data']['user']['name']);
+        setValue(Constants.userData, response.data['data']['user']);
         toast("Login successful");
         if (mounted) {
-          context.go(AppRoutes.home);
+          context.go(AppRoutes.batches);
         }
       } else {
         toast("Login failed");
@@ -72,33 +73,54 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login"), automaticallyImplyLeading: false),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                labelText: "Email",
-                border: OutlineInputBorder(),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(
+                16,
+              ), // Adjust the radius as needed
+              child: Image.asset(
+                'assets/icon/app_icon.png',
+                fit: BoxFit.cover,
+                width: 200,
+                height: 200,
               ),
             ),
-            16.height,
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                labelText: "Password",
-                border: OutlineInputBorder(),
+            32.height,
+            AutofillGroup(
+              child: Column(
+                children: [
+                  TextField(
+                    autofillHints: [AutofillHints.email],
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: "Email",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  16.height,
+                  TextField(
+                    controller: passwordController,
+                    autofillHints: [AutofillHints.password],
+                    decoration: InputDecoration(
+                      labelText: "Password",
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                  ),
+                ],
               ),
-              obscureText: true,
             ),
-            16.height,
+            32.height,
             ElevatedButton(
               onPressed: handleLogin,
               child: SizedBox(
                 width: context.width() / 2,
+                height: 64,
                 child: Center(
                   child: Text("Login", style: TextStyle(fontSize: 24)),
                 ),

@@ -1,4 +1,6 @@
+import 'package:digicon/constants/keys.dart';
 import 'package:digicon/constants/routes.dart';
+import 'package:digicon/providers/theme_provider.dart';
 import 'package:digicon/services/network.dart';
 import 'package:digicon/utils/common.dart';
 import 'package:digicon/utils/debug.dart';
@@ -7,6 +9,7 @@ import 'package:digicon/data/models.dart';
 import 'package:digicon/services/api_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 
 class ImageListScreen extends StatefulWidget {
   const ImageListScreen({super.key});
@@ -111,8 +114,33 @@ class _ImageListScreenState extends State<ImageListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Uploaded Images')),
+      appBar: AppBar(
+        title: Text('All Batches'),
+        actions: [
+          IconButton(
+            iconSize: 32,
+            icon:
+                !themeProvider.isDarkMode
+                    ? Icon(Icons.dark_mode)
+                    : Icon(Icons.light_mode),
+            onPressed: () {
+              themeProvider.toggleTheme();
+              setState(() {});
+            },
+          ),
+          IconButton(
+            iconSize: 32,
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              removeKey(Constants.jwtKey);
+              context.go(AppRoutes.login);
+              setState(() {});
+            },
+          ),
+        ],
+      ),
 
       body: FutureBuilder<List<Batch>>(
         future: _batchesFuture,
@@ -162,7 +190,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     // Navigate to the image picker screen
-                    context.push(AppRoutes.imageGridPicker).then((didChange) {
+                    context.push(AppRoutes.batchCreate).then((didChange) {
                       if (didChange != null && didChange == true) {
                         setState(() {});
                         _batchesFuture = fetchBatches();
@@ -201,13 +229,21 @@ class _ImageListScreenState extends State<ImageListScreen> {
                                           batch.reference ?? 'No reference',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
+                                            fontSize: 16,
                                           ),
                                         ),
                                         SizedBox(height: 4),
-                                        Text(batch.name ?? 'No name'),
+                                        Text(
+                                          'Media: ${batch.media.length}',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
                                         SizedBox(height: 4),
                                         Text(
                                           'Created at: ${formatDateTime(batch.createdAt)}',
+                                        ),
+                                        SizedBox(height: 4),
+                                        Text(
+                                          'Created by: ${batch.createdBy.name}',
                                         ),
                                       ],
                                     ),
@@ -219,7 +255,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
                                       onPressed: () {
                                         context
                                             .push(
-                                              AppRoutes.imageGridView,
+                                              AppRoutes.batchDetails,
                                               extra: batch,
                                             )
                                             .then((didChange) {

@@ -7,10 +7,7 @@ import 'package:digicon/constants/routes.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-
-  const HomeScreen({
-    super.key,
-  });
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -40,12 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             iconSize: 32,
-            icon: !themeProvider.isDarkMode ? Icon(Icons.dark_mode) : Icon(Icons.light_mode),
+            icon:
+                !themeProvider.isDarkMode
+                    ? Icon(Icons.dark_mode)
+                    : Icon(Icons.light_mode),
             onPressed: () {
-              themeProvider.toggleTheme();        
-              setState(() {
-                
-              });      
+              themeProvider.toggleTheme();
+              setState(() {});
             },
           ),
           IconButton(
@@ -62,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: GestureDetector(
           onTap: () {
-            context.push(AppRoutes.imageList);
+            context.push(AppRoutes.batches);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

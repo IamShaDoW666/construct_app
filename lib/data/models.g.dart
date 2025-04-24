@@ -31,6 +31,17 @@ _User _$UserFromJson(Map<String, dynamic> json) => _User(
   name: json['name'] as String?,
   email: json['email'] as String,
   password: json['password'] as String?,
+  profile: json['profile'] as String?,
+  role: json['role'] as String,
+  phone: json['phone'] as String?,
+  media:
+      (json['media'] as List<dynamic>?)
+          ?.map((e) => Media.fromJson(e as Map<String, dynamic>))
+          .toList(),
+  batches:
+      (json['batches'] as List<dynamic>?)
+          ?.map((e) => Batch.fromJson(e as Map<String, dynamic>))
+          .toList(),
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
@@ -40,6 +51,11 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
   'name': instance.name,
   'email': instance.email,
   'password': instance.password,
+  'profile': instance.profile,
+  'role': instance.role,
+  'phone': instance.phone,
+  'media': instance.media,
+  'batches': instance.batches,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
 };

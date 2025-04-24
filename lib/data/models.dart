@@ -18,6 +18,7 @@ abstract class ApiResponse<T> with _$ApiResponse<T> {
     T Function(Object?) fromJsonT,
   ) => _$ApiResponseFromJson(json, fromJsonT);
 }
+
 /// User Model
 @freezed
 abstract class User with _$User {
@@ -26,6 +27,11 @@ abstract class User with _$User {
     String? name,
     required String email,
     String? password,
+    String? profile,
+    required String role,
+    String? phone,
+    List<Media>? media,
+    List<Batch>? batches,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _User;
@@ -68,6 +74,3 @@ abstract class Batch with _$Batch {
 
   factory Batch.fromJson(Map<String, dynamic> json) => _$BatchFromJson(json);
 }
-
-
-
