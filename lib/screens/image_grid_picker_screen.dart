@@ -1,9 +1,6 @@
 import 'dart:io';
 
-import 'package:digicon/constants/keys.dart';
-import 'package:digicon/constants/routes.dart';
 import 'package:digicon/services/api_service.dart';
-import 'package:digicon/services/network.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';

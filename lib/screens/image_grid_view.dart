@@ -149,7 +149,7 @@ class _ImageGridViewState extends State<ImageGridView> {
     } on ApiException catch (e) {
       _isLoading = false;
       print(e);
-      snackBar(title: 'Error! ${e.message}', context);
+      snackBar(title: 'No internet connection', context);
       if (e.statusCode == 401) {
         removeKey(Constants.jwtKey);
         context.push(AppRoutes.login);
@@ -157,7 +157,7 @@ class _ImageGridViewState extends State<ImageGridView> {
     } catch (e) {
       _isLoading = false;
       print(e);
-      snackBar(title: "$e", context);
+      snackBar(title: "No internet connection", context);
     }
   }
 
