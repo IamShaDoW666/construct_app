@@ -43,6 +43,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: CircularProgressIndicator()));
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset('assets/icon/app_icon.png'),
+          ).paddingSymmetric(horizontal: 24),
+          32.height,
+          CircularProgressIndicator.adaptive(
+            backgroundColor: context.primaryColor,
+          ).center().paddingAll(16),
+        ],
+      ),
+    );
   }
 }

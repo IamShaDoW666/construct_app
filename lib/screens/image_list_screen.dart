@@ -257,7 +257,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
                                         ),
                                         SizedBox(height: 4),
                                         Text(
-                                          'Media: ${batch.media.length}',
+                                          'Media: ${batch.media!.length}',
                                           style: TextStyle(fontSize: 14),
                                         ),
                                         SizedBox(height: 4),
@@ -266,7 +266,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
                                         ),
                                         SizedBox(height: 4),
                                         Text(
-                                          'Created by: ${batch.createdBy.name}',
+                                          'Created by: ${batch.createdBy!.name}',
                                         ),
                                       ],
                                     ),

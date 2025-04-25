@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
 
   void handleLogin() async {
+    if (isLoading) return;
     setState(() {
       isLoading = true;
     });
@@ -122,7 +123,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: context.width() / 2,
                 height: 64,
                 child: Center(
-                  child: Text("Login", style: TextStyle(fontSize: 24)),
+                  child:
+                      !isLoading
+                          ? const Text("Log in", style: TextStyle(fontSize: 24))
+                          : const CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
             ),

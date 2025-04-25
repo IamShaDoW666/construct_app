@@ -34,12 +34,12 @@ _User _$UserFromJson(Map<String, dynamic> json) => _User(
   profile: json['profile'] as String?,
   role: json['role'] as String,
   phone: json['phone'] as String?,
-  media:
-      (json['media'] as List<dynamic>?)
+  uploadedMedia:
+      (json['uploadedMedia'] as List<dynamic>?)
           ?.map((e) => Media.fromJson(e as Map<String, dynamic>))
           .toList(),
-  batches:
-      (json['batches'] as List<dynamic>?)
+  createdBatches:
+      (json['createdBatches'] as List<dynamic>?)
           ?.map((e) => Batch.fromJson(e as Map<String, dynamic>))
           .toList(),
   createdAt: DateTime.parse(json['createdAt'] as String),
@@ -54,8 +54,8 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
   'profile': instance.profile,
   'role': instance.role,
   'phone': instance.phone,
-  'media': instance.media,
-  'batches': instance.batches,
+  'uploadedMedia': instance.uploadedMedia,
+  'createdBatches': instance.createdBatches,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
 };
@@ -65,7 +65,6 @@ _Media _$MediaFromJson(Map<String, dynamic> json) => _Media(
   title: json['title'] as String?,
   type: json['type'] as String,
   url: json['url'] as String,
-  description: json['description'] as String?,
   uploadedUser:
       json['uploadedUser'] == null
           ? null
@@ -86,7 +85,6 @@ Map<String, dynamic> _$MediaToJson(_Media instance) => <String, dynamic>{
   'title': instance.title,
   'type': instance.type,
   'url': instance.url,
-  'description': instance.description,
   'uploadedUser': instance.uploadedUser,
   'uploadedUserId': instance.uploadedUserId,
   'reference': instance.reference,
@@ -101,10 +99,13 @@ _Batch _$BatchFromJson(Map<String, dynamic> json) => _Batch(
   name: json['name'] as String?,
   reference: json['reference'] as String?,
   userId: json['userId'] as String,
-  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  createdBy:
+      json['createdBy'] == null
+          ? null
+          : User.fromJson(json['createdBy'] as Map<String, dynamic>),
   media:
-      (json['media'] as List<dynamic>)
-          .map((e) => Media.fromJson(e as Map<String, dynamic>))
+      (json['media'] as List<dynamic>?)
+          ?.map((e) => Media.fromJson(e as Map<String, dynamic>))
           .toList(),
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),

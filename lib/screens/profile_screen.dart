@@ -49,14 +49,13 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              // Stats
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  if (user.batches != null)
-                    _buildStatColumn('Batches', user.batches!.length),
-                  if (user.media != null)
-                    _buildStatColumn('Media', user.media!.length),
+                  if (user.createdBatches != null)
+                    _buildStatColumn('Batches', user.createdBatches!.length),
+                  if (user.uploadedMedia != null)
+                    _buildStatColumn('Media', user.uploadedMedia!.length),
                 ],
               ),
               SizedBox(height: 20),

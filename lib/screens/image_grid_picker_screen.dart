@@ -44,8 +44,9 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
   Future<void> handleUpload() async {
     if (_images.isNotEmpty) {
       if (_isLoading) return;
-      _isLoading = true;
-      setState(() {});
+      setState(() {
+        _isLoading = true;
+      });
       final res = await ApiService.uploadImages(
         _images,
         _referenceController.text,
@@ -143,7 +144,7 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: Container(
-            color: Colors.grey[200],
+            color: Theme.of(context).colorScheme.primary.withAlpha(35),
             child: const Center(
               child: Icon(Icons.add, size: 40, color: Colors.grey),
             ),
@@ -220,7 +221,10 @@ class _ImageGridPickerScreenState extends State<ImageGridPickerScreen> {
             alignment: Alignment.centerRight,
             child: ElevatedButton(
               onPressed: handleUpload,
-              child: _isLoading ? CircularProgressIndicator() : Text('Upload'),
+              child:
+                  _isLoading
+                      ? const CircularProgressIndicator()
+                      : Text('Upload'),
             ).paddingAll(16),
           ),
         ],

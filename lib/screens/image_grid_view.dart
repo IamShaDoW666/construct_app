@@ -38,7 +38,7 @@ class _ImageGridViewState extends State<ImageGridView> {
   @override
   void initState() {
     super.initState();
-    _existing = List.from(widget.batch.media);
+    _existing = List.from(widget.batch.media!);
     _referenceController.text = widget.batch.reference!.substring(7) ?? '';
     _isLoading = false;
   }
@@ -102,7 +102,7 @@ class _ImageGridViewState extends State<ImageGridView> {
       positiveText: "Delete",
       negativeText: "Cancel",
       dialogType: DialogType.DELETE,
-      onAccept: (context) async {
+      onAccept: (_) async {
         _isLoading = true;
         setState(() {});
         try {
@@ -118,7 +118,7 @@ class _ImageGridViewState extends State<ImageGridView> {
         } catch (e) {
           _isLoading = false;
           setState(() {});
-          snackBar(title: "$e", context);
+          snackBar(title: "Request timed out", context);
         }
       },
     );
@@ -133,6 +133,7 @@ class _ImageGridViewState extends State<ImageGridView> {
       return;
     }
     _isLoading = true;
+    setState(() {});
     try {
       // Upload new images
       if (_newFiles.isNotEmpty ||
@@ -156,10 +157,12 @@ class _ImageGridViewState extends State<ImageGridView> {
         setState(() {});
       }
       _isLoading = false;
+      setState(() {});
       snackBar(title: "Batch updated successfully", context);
       GoRouter.of(context).pop(true);
     } on ApiException catch (e) {
       _isLoading = false;
+      setState(() {});
       print(e);
       snackBar(title: 'No internet connection', context);
       if (e.statusCode == 401) {
@@ -168,6 +171,7 @@ class _ImageGridViewState extends State<ImageGridView> {
       }
     } catch (e) {
       _isLoading = false;
+      setState(() {});
       print(e);
       snackBar(title: "No internet connection", context);
     }
@@ -418,7 +422,7 @@ class _ImageGridViewState extends State<ImageGridView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Batch Images"),
+        title: Text(widget.batch.reference!),
         actions: [
           IconButton(onPressed: handlePdf, icon: Icon(Icons.picture_as_pdf)),
           IconButton(
@@ -433,80 +437,74 @@ class _ImageGridViewState extends State<ImageGridView> {
           ),
         ],
       ),
-      body:
-          _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                children: [
-                  Expanded(
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemCount: itemCount,
+      body: Column(
+        children: [
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: itemCount,
 
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                      itemBuilder: (_, idx) => _buildGridItem(idx),
-                    ),
-                  ),
-                  36.height,
-                  SizedBox(
-                    height: context.height() / 4,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '${widget.batch.reference?.substring(0, 7)} - ',
-                            ),
-                            Expanded(
-                              child: TextField(
-                                controller: _referenceController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Enter reference',
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ).paddingSymmetric(horizontal: 8),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            if (user.role == "ADMIN")
-                              ElevatedButton(
-                                onPressed: handleDelete,
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStateProperty.all<Color>(
-                                        Theme.of(
-                                          context,
-                                        ).colorScheme.errorContainer,
-                                      ),
-                                  foregroundColor: WidgetStateProperty.all(
-                                    Theme.of(context).colorScheme.error,
-                                  ),
-                                ),
-                                child: const Text('Delete Batch'),
-                              ).paddingAll(16),
-                            ElevatedButton(
-                              onPressed: handleUpload,
-                              child:
-                                  _isLoading
-                                      ? CircularProgressIndicator()
-                                      : const Text('Update Batch'),
-                            ).paddingAll(16),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
               ),
+              itemBuilder: (_, idx) => _buildGridItem(idx),
+            ),
+          ),
+          36.height,
+          SizedBox(
+            height: context.height() / 4,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text('${widget.batch.reference?.substring(0, 7)} - '),
+                    Expanded(
+                      child: TextField(
+                        controller: _referenceController,
+                        decoration: const InputDecoration(
+                          labelText: 'Enter reference',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ).paddingSymmetric(horizontal: 8),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (user.role == "ADMIN")
+                      ElevatedButton(
+                        onPressed: handleDelete,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                            Theme.of(context).colorScheme.errorContainer,
+                          ),
+                          foregroundColor: WidgetStateProperty.all(
+                            Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                        child:
+                            _isLoading
+                                ? CircularProgressIndicator()
+                                : const Text('Delete Batch'),
+                      ).paddingAll(16),
+                    ElevatedButton(
+                      onPressed: handleUpload,
+                      child:
+                          _isLoading
+                              ? CircularProgressIndicator()
+                              : const Text('Update Batch'),
+                    ).paddingAll(16),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -61,7 +61,7 @@ final GoRouter router = GoRouter(
               path: AppRoutes.home,
               pageBuilder: (context, state) {
                 final user = getJSONAsync(Constants.userData);
-                final userData = User.fromJson(user);
+                User userData = User.fromJson(user);
                 return NoTransitionPage(child: ProfileScreen(user: userData));
               },
               routes: [],
