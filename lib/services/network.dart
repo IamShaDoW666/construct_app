@@ -30,8 +30,8 @@ class BaseApi {
   static final Dio _dio = Dio(
     BaseOptions(
       baseUrl: '${Constants.baseUrl}/api', // Replace with your API base URL
-      connectTimeout: Duration(seconds: 10),
-      receiveTimeout: Duration(seconds: 10),
+      connectTimeout: Duration(seconds: 20),
+      receiveTimeout: Duration(seconds: 20),
       headers: {"Content-Type": "application/json"},
     ),
   );

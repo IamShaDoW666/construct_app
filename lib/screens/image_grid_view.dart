@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicon/components/pdf_dialog.dart';
 import 'package:digicon/constants/keys.dart';
@@ -33,6 +32,7 @@ class _ImageGridViewState extends State<ImageGridView> {
   final List<File> _newFiles = [];
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _referenceController = TextEditingController();
+  final User user = User.fromJson(getJSONAsync(Constants.userData));
   bool _isLoading = true;
 
   @override
@@ -258,7 +258,7 @@ class _ImageGridViewState extends State<ImageGridView> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: Container(
-            color: Colors.grey[200],
+            color: Theme.of(context).colorScheme.primary.withAlpha(35),
             child: const Center(
               child: Icon(Icons.add, size: 40, color: Colors.grey),
             ),
@@ -477,18 +477,22 @@ class _ImageGridViewState extends State<ImageGridView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            ElevatedButton(
-                              onPressed: handleDelete,
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(
-                                  Theme.of(context).colorScheme.errorContainer,
+                            if (user.role == "ADMIN")
+                              ElevatedButton(
+                                onPressed: handleDelete,
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      WidgetStateProperty.all<Color>(
+                                        Theme.of(
+                                          context,
+                                        ).colorScheme.errorContainer,
+                                      ),
+                                  foregroundColor: WidgetStateProperty.all(
+                                    Theme.of(context).colorScheme.error,
+                                  ),
                                 ),
-                                foregroundColor: WidgetStateProperty.all(
-                                  Theme.of(context).colorScheme.error,
-                                ),
-                              ),
-                              child: const Text('Delete Batch'),
-                            ).paddingAll(16),
+                                child: const Text('Delete Batch'),
+                              ).paddingAll(16),
                             ElevatedButton(
                               onPressed: handleUpload,
                               child:

@@ -114,7 +114,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('All Batches'),
@@ -140,6 +140,18 @@ class _ImageListScreenState extends State<ImageListScreen> {
             },
           ),
         ],
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push(AppRoutes.batchCreate).then((didChange) {
+            if (didChange != null && didChange == true) {
+              setState(() {});
+              _batchesFuture = fetchBatches();
+            }
+          });
+        },
+        child: Icon(Icons.add),
       ),
 
       body: FutureBuilder<List<Batch>>(
@@ -185,23 +197,34 @@ class _ImageListScreenState extends State<ImageListScreen> {
                     ],
                   ),
                 ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // Navigate to the image picker screen
-                    context.push(AppRoutes.batchCreate).then((didChange) {
-                      if (didChange != null && didChange == true) {
-                        setState(() {});
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  // ElevatedButton.icon(
+                  //   onPressed: () {
+                  //     // Navigate to the image picker screen
+                  //     context.push(AppRoutes.batchCreate).then((didChange) {
+                  //       if (didChange != null && didChange == true) {
+                  //         setState(() {});
+                  //         _batchesFuture = fetchBatches();
+                  //       }
+                  //     });
+                  //   },
+                  //   label: Text('Add'),
+                  //   icon: Icon(Icons.add_circle),
+                  //   iconAlignment: IconAlignment.end,
+                  // ).paddingOnly(right: 16, bottom: 8, top: 8),
+                  IconButton(
+                    icon: Icon(Icons.refresh),
+                    tooltip: 'Refresh',
+                    onPressed: () {
+                      setState(() {
                         _batchesFuture = fetchBatches();
-                      }
-                    });
-                  },
-                  label: Text('Add'),
-                  icon: Icon(Icons.add_circle),
-                  iconAlignment: IconAlignment.end,
-                ),
-              ).paddingOnly(right: 16, bottom: 8, top: 8),
+                      });
+                    },
+                  ).paddingOnly(right: 16, bottom: 8, top: 8),
+                ],
+              ),
               Expanded(
                 child:
                     filteredBatches.isEmpty

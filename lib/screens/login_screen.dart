@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else if (e.statusCode == 500) {
         toast("Server error, please try again later");
       } else {
-        toast("Error: ${e.message}");
+        toast("Request timed out");
       }
       setState(() {
         isLoading = false;
